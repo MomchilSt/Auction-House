@@ -1,0 +1,61 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<h4 class="text-center mx-auto rounded">Create a new account.</h4>
+<hr class="hr-2 mt-4">
+<form method="post" asp-action="/Identity/Account/Register" class="form border-primary-4 rounded p-3 w-25 mx-auto mt-3">
+    <div class="form-group mx-auto">
+        <div class="d-flex justify-content-center">
+            <label asp-for="Input.Username" class="h6">Username</label>
+        </div>
+        <input type="text"
+               class="form-control text-center"
+               id="username"
+               placeholder="Username    "
+               asp-for="Input.Username">
+        <span asp-validation-for="Input.Username" class="text-danger"></span>
+    </div>
+    <div class="form-group mx-auto">
+        <div class="d-flex justify-content-center">
+            <label asp-for="Input.Password" class="h6">Password</label>
+        </div>
+        <input type="password"
+               class="form-control text-center"
+               id="password"
+               placeholder="Password"
+               asp-for="Input.Password">
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+    <div class="form-group mx-auto">
+        <div class="d-flex justify-content-center">
+            <label asp-for="Input.ConfirmPassword" class="h6">Confirm Password</label>
+        </div>
+        <input type="password"
+               class="form-control text-center"
+               id="confirmPassword"
+               placeholder="Confirm Password"
+               asp-for="Input.ConfirmPassword">
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+    </div>
+    <div class="form-group mx-auto">
+        <div class="d-flex justify-content-center">
+            <label asp-for="Input.Email" class="h6">Email</label>
+        </div>
+        <input type="email"
+               class="form-control text-center"
+               id="email"
+               placeholder="Email"
+               asp-for="Input.Email">
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <hr class="hr-2 mt-4">
+    <div class="d-flex justify-content-center mt-3">
+        <button id="Btns" class="btn btn-primary">Register</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

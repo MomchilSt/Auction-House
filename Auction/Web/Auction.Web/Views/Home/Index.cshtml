@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Go Auction";
+}
+
+@if (!this.User.Identity.IsAuthenticated)
+{
+    <div id="welcome" class="container text-center">
+        <h1>Welcome to Go Auction!</h1>
+        <p>Your Price, Your Way.</p>
+        <a class="badge badge-success" asp-area="Identity" asp-page="/Account/Login"><h6>Get Started</h6></a>
+    </div>
+}
+else
+{
+}
+
+   

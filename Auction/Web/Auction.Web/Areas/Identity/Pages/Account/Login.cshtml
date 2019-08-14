@@ -1,0 +1,50 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="row">
+    <div id="login-left" class="col-md-6">
+        <h2 class="text-center mx-auto rounded">Login</h2>
+        <hr class="hr-2 mt-4">
+        <form method="post" asp-action="/Identity/Account/Login" class="form border-primary-4 rounded mx-auto mt-3">
+            <div class="form-group mx-auto">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="Input.Username" class="h5">Username</label>
+                </div>
+                <input type="text"
+                       class="form-control text-center"
+                       id="username"
+                       placeholder="Username..."
+                       asp-for="Input.Username">
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+            <div class="form-group mx-auto">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="Input.Password" class="h5">Password</label>
+                </div>
+                <input type="password"
+                       class="form-control text-center"
+                       id="password"
+                       placeholder="Password..."
+                       asp-for="Input.Password">
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <hr class="hr-2 mt-4">
+            <div class="d-flex justify-content-center mt-3">
+                <button id="Btns" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+    </div>
+    <div id="login-right" class="col-md-6 text-lg-center">
+        <h4>New to Go Auction?</h4>
+        <a class="badge badge-success" asp-area="Identity" asp-page="/Account/Register"><h6>Sign up now.</h6></a>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
