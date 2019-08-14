@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Auction.Data.Models;
 using Auction.Data;
 using System.Linq;
+using GlobalConstants;
 
 namespace Auction.Web
 {
@@ -60,7 +61,7 @@ namespace Auction.Web
                     {
                         context.Roles.Add(new IdentityRole
                         {
-                            Name = "Admin",
+                            Name = Basic,
                             NormalizedName = "ADMIN"
                         });
 
