@@ -15,6 +15,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\GlobalConstants\GlobalConstants.csproj" />
     <ProjectReference Include="..\..\Data\Auction.Data.Models\Auction.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\Auction.Data\Auction.Data.csproj" />
   </ItemGroup>

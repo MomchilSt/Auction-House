@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -61,14 +60,14 @@ namespace Auction.Web
                     {
                         context.Roles.Add(new IdentityRole
                         {
-                            Name = Basic,
-                            NormalizedName = "ADMIN"
+                            Name = BasicConstants.Admin,
+                            NormalizedName = BasicConstants.AdminNormalized
                         });
 
                         context.Roles.Add(new IdentityRole
                         {
-                            Name = "User",
-                            NormalizedName = "USER"
+                            Name = BasicConstants.User,
+                            NormalizedName = BasicConstants.UserNormalized
                         });
 
                         context.SaveChanges();
