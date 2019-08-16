@@ -94,7 +94,7 @@
     }
     <div class="container">
         <table id="main-columns" style="table-layout: fixed;">
-            <tbody>
+            <thead>
                 <tr>
                     <td id="left-sidebar" class="hidden-xs-sm">
                         <h1>
@@ -103,7 +103,12 @@
                             </a>
                         </h1>
                     </td>
-                    @*<td>
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <th id="searchBox" class="form-group justify-content-between">
+                            <input type="text" class="form-control" id="products-search-bar" name="search" placeholder="Search..." />
+                        </th>
+                        <th>
                             <div id="clockbox"></div>
                             <script id="clockbox" type="text/javascript">
                                 function GetClock() {
@@ -120,9 +125,10 @@
                                 GetClock();
                                 setInterval(GetClock, 1000);
                             </script>
-                        </td>*@
+                        </th>
+                    }
                 </tr>
-            </tbody>
+            </thead>
         </table>
         <main role="main" class="pb-3">
             @RenderBody()
