@@ -1,7 +1,8 @@
 ﻿namespace Auction.Data.Models
 {
-    public class City : BaseModel<string>
+    public class City
     {
+        public string Id { get; set; }
         public string Name { get; set; }
     }
 }

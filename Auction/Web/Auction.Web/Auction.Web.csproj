@@ -18,10 +18,13 @@
     <ProjectReference Include="..\..\Common\GlobalConstants\GlobalConstants.csproj" />
     <ProjectReference Include="..\..\Data\Auction.Data.Models\Auction.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\Auction.Data\Auction.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Auction.Services\Auction.Services.csproj" />
+    <ProjectReference Include="..\Auction.Web.InputModels\Auction.Web.InputModels.csproj" />
   </ItemGroup>
 
 
   <ItemGroup>
+    <Folder Include="Areas\Administration\Views\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

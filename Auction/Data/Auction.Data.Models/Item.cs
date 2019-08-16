@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Auction.Data.Models.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace Auction.Data.Models
 {
-    public class Item : BaseModel<string>
+    public class Item
     {
         public Item()
         {
             this.Bids = new HashSet<Bid>();
         }
+
+        public string Id { get; set; }
 
         public string Name { get; set; }
 

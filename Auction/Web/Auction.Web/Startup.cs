@@ -10,6 +10,8 @@ using Auction.Data.Models;
 using Auction.Data;
 using System.Linq;
 using GlobalConstants;
+using Auction.Services.Interfaces;
+using Auction.Services.Services;
 
 namespace Auction.Web
 {
@@ -43,6 +45,10 @@ namespace Auction.Web
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<AuctionDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<IAuctionHouseService, AuctionHouseService>();
+            services.AddTransient<ICityService, CityService>();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -84,6 +90,10 @@ namespace Auction.Web
 
                 app.UseMvc(routes =>
                 {
+                    routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                     routes.MapRoute(
                         name: "default",
                         template: "{controller=Home}/{action=Index}/{id?}");

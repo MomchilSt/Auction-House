@@ -2,8 +2,10 @@
 
 namespace Auction.Data.Models
 {
-    public class Bid : BaseModel<string>
+    public class Bid
     {
+        public string Id { get; set; }
+
         public decimal Amount { get; set; }
 
         public string ItemId { get; set; }

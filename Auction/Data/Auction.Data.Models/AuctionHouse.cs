@@ -2,13 +2,15 @@
 
 namespace Auction.Data.Models
 {
-    public class AuctionHouse : BaseModel<string>
+    public class AuctionHouse
     {
         public AuctionHouse()
         {
             this.ItemsBeingAcutioned = new HashSet<Item>();
             this.Reviews = new HashSet<Review>();
         }
+
+        public string Id { get; set; }
 
         public string Name { get; set; }
 

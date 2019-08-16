@@ -20,7 +20,6 @@ namespace Auction.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<AuctionUser> _signInManager;
         private readonly UserManager<AuctionUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<AuctionUser> userManager,

@@ -10,6 +10,8 @@ namespace GlobalConstants
 
         public const string AdminNormalized = "ADMIN";
 
+        public const string AdministrationArea = "Administration";
+
         public const string User = "User";
 
         public const string UserNormalized = "USER";
