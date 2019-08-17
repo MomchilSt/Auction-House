@@ -1,6 +1,7 @@
 ﻿using Auction.Data.Models;
 using Auction.Services.Interfaces;
 using Auction.Web.InputModels;
+using GlobalConstants;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -15,12 +16,13 @@ namespace Auction.Web.Areas.Administration.Controllers
             this.cityService = cityService;
         }
 
-        public async Task<IActionResult> CreateCity()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
 
-        public async Task<IActionResult> CreateCity(CityCreateInputModel cityCreateInputModel)
+        [HttpPost]
+        public async Task<IActionResult> Create(CityCreateInputModel cityCreateInputModel)
         {
             await this.cityService.CreateCity(cityCreateInputModel);
 

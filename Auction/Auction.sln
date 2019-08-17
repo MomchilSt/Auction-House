@@ -21,11 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{A7443F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalConstants", "Common\GlobalConstants\GlobalConstants.csproj", "{B2573F44-54F8-4A9F-ACD9-2CBF3651E90C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Services", "Services\Auction.Services\Auction.Services.csproj", "{9E50AB99-6CA1-49F7-887D-6A4BBACB6337}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auction.Services", "Services\Auction.Services\Auction.Services.csproj", "{9E50AB99-6CA1-49F7-887D-6A4BBACB6337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Web.ViewModels", "Web\Auction.Web.ViewModels\Auction.Web.ViewModels.csproj", "{5A4845E0-8BF3-4B45-A6A5-F9DF0AC0C1C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auction.Web.ViewModels", "Web\Auction.Web.ViewModels\Auction.Web.ViewModels.csproj", "{5A4845E0-8BF3-4B45-A6A5-F9DF0AC0C1C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Web.InputModels", "Web\Auction.Web.InputModels\Auction.Web.InputModels.csproj", "{3A443E5D-5E5D-4EC2-976E-F0E72AED36FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auction.Web.InputModels", "Web\Auction.Web.InputModels\Auction.Web.InputModels.csproj", "{3A443E5D-5E5D-4EC2-976E-F0E72AED36FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
