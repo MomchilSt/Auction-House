@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Auction.Data.Models;
+using Auction.Web.ViewModels;
 
 namespace Auction.Web.InputModels
 {
@@ -11,5 +10,7 @@ namespace Auction.Web.InputModels
         public string Address { get; set; }
 
         public string Description { get; set; }
+
+        public string City { get; set; }
     }
 }

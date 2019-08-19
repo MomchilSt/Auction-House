@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\Data\Auction.Data\Auction.Data.csproj" />
     <ProjectReference Include="..\..\Services\Auction.Services\Auction.Services.csproj" />
     <ProjectReference Include="..\Auction.Web.InputModels\Auction.Web.InputModels.csproj" />
+    <ProjectReference Include="..\Auction.Web.ViewModels\Auction.Web.ViewModels.csproj" />
   </ItemGroup>
 
 
