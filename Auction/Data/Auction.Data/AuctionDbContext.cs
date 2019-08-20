@@ -7,8 +7,6 @@ namespace Auction.Data
 {
     public class AuctionDbContext : IdentityDbContext<AuctionUser, IdentityRole, string>
     {
-        //public DbSet<AuctionUser> auctionUsers { get; set; }
-
         public DbSet<AuctionHouse> AuctionHouses { get; set; }
 
         public DbSet<Bid> Bids { get; set; }
