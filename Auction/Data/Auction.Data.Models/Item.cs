@@ -21,12 +21,11 @@ namespace Auction.Data.Models
 
         public decimal StartingPrice { get; set; }
 
+        public decimal BuyOutPrice { get; set; }
+
         public DateTime StartTime { get; set; }
 
         public DateTime EndTime { get; set; }
-
-        public string OwnerId { get; set; }
-        public AuctionUser Owner { get; set; }
 
         public string AuctionHouseId { get; set; }
         public AuctionHouse AuctionHouse { get; set; }

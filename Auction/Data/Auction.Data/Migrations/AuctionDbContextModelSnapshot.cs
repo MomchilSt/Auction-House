@@ -133,6 +133,10 @@ namespace Auction.Data.Migrations
 
                     b.Property<string>("AuctionHouseId");
 
+                    b.Property<string>("AuctionUserId");
+
+                    b.Property<decimal>("BuyOutPrice");
+
                     b.Property<int>("Category");
 
                     b.Property<string>("Description");
@@ -140,8 +144,6 @@ namespace Auction.Data.Migrations
                     b.Property<DateTime>("EndTime");
 
                     b.Property<string>("Name");
-
-                    b.Property<string>("OwnerId");
 
                     b.Property<DateTime>("StartTime");
 
@@ -151,7 +153,7 @@ namespace Auction.Data.Migrations
 
                     b.HasIndex("AuctionHouseId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("AuctionUserId");
 
                     b.ToTable("Items");
                 });
@@ -310,9 +312,9 @@ namespace Auction.Data.Migrations
                         .WithMany("ItemsBeingAcutioned")
                         .HasForeignKey("AuctionHouseId");
 
-                    b.HasOne("Auction.Data.Models.AuctionUser", "Owner")
+                    b.HasOne("Auction.Data.Models.AuctionUser")
                         .WithMany("Inventory")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("AuctionUserId");
                 });
 
             modelBuilder.Entity("Auction.Data.Models.Review", b =>
