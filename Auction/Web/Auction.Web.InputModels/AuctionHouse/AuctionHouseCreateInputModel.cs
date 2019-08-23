@@ -1,7 +1,7 @@
 ﻿using Auction.Data.Models;
 using Auction.Web.ViewModels;
 
-namespace Auction.Web.InputModels
+namespace Auction.Web.InputModels.AuctionHouse
 {
     public class AuctionHouseCreateInputModel
     {

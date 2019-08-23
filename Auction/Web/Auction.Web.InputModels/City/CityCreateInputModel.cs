@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Auction.Web.InputModels
+namespace Auction.Web.InputModels.City
 {
     public class CityCreateInputModel
     {
