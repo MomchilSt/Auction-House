@@ -1,4 +1,4 @@
-﻿namespace Auction.Web.ViewModels
+﻿namespace Auction.Web.ViewModels.Item
 {
     public class ItemCreateAuctionHouseViewModel
     {
