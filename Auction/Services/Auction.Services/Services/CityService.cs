@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Auction.Data;
 using Auction.Data.Models;
 using Auction.Services.Interfaces;
-using Auction.Web.InputModels;
+using Auction.Web.InputModels.City;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auction.Services.Services
@@ -31,7 +31,7 @@ namespace Auction.Services.Services
             return result > 0;
         }
 
-        public IQueryable<City> GetCities()
+        public IQueryable<City> GetAllCities()
         {
             var cities = this.context.Cities;
 

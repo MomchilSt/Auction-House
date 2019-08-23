@@ -1,7 +1,7 @@
 ﻿using Auction.Data;
 using Auction.Data.Models;
 using Auction.Services.Interfaces;
-using Auction.Web.InputModels;
+using Auction.Web.InputModels.AuctionHouse;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,6 +41,13 @@ namespace Auction.Services.Services
             int result = await context.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public IQueryable<AuctionHouse> GetAllAuctionHouses()
+        {
+            var auctionHouses = this.context.AuctionHouses;
+
+            return auctionHouses;
         }
     }
 }
