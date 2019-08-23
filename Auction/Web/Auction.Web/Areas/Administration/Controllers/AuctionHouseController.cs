@@ -21,7 +21,7 @@ namespace Auction.Web.Areas.Administration.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var allCities = await cityService.GetAllCities().ToListAsync();
+            var allCities = await this.cityService.GetAllCities().ToListAsync();
 
             this.ViewData["cities"] = allCities.Select(cities => 
             new AuctionHouseCreateCityViewModel

@@ -1,0 +1,69 @@
+﻿@model List<Auction.Web.ViewModels.Item.ItemHomeViewModel>
+
+@{
+    ViewData["Title"] = "Go Auction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hr />
+<div class="row d-flex justify-content-between" id="indexPageHolder">
+    <div class="col-2 justify-content-between" id="leftSide">
+        <div>
+            <h3>Categories</h3>
+            <hr />
+            <div class="justify-content-between">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Electronics</td>
+                        </tr>
+                        <tr>
+                            <td>Jewellery</td>
+                        </tr>
+                        <tr>
+                            <td>Sport</td>
+                        </tr>
+                        <tr>
+                            <td>Art</td>
+                        </tr>
+                        <tr>
+                            <td>Clothes</td>
+                        </tr>
+                        <tr>
+                            <td>Other</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md justify-content-between rounded" id="rightSide">
+        <h3 class="text-center">Items being auctioned now</h3>
+        <hr />
+        @for (int i = 0; i < Model.Count(); i += 3)
+        {
+            <div class="row d-flex justify-content-around my-5">
+                @for (int j = i; j < i + 3; j++)
+                {
+                    @if (j < Model.Count())
+                    {
+                        <div class="col-md-3">
+                            <h6 class="text-center mt-3">Name: @Model[j].Name</h6>
+                            <div class="image-holder d-flex justify-content-center">
+                                <a href="">
+                                    <img src="@Model[j].Picture" class="img-thumbnail item-image rounded" alt="..." />
+                                </a>
+                            </div>
+                            <h6 class="text-center mt-3">Starting price: @Model[j].StartingPrice.ToString("F2")</h6>
+                            <h6 class="text-center mt-3">Buy out price: @Model[j].BuyOutPrice.ToString("F2")</h6>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3 empty"></div>
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>

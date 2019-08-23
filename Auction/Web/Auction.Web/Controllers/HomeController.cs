@@ -1,17 +1,41 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Auction.Services.Interfaces;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Auction.Web.ViewModels.Item;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Auction.Web.Models;
 
 namespace Auction.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly string indexLoggedIn = "IndexLoggedIn";
+        private readonly IItemService itemService;
+
+        public HomeController(IItemService itemService)
         {
+            this.itemService = itemService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                List<ItemHomeViewModel> items = await this.itemService.GetAllItems()
+                    .Select(x => new ItemHomeViewModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        StartingPrice = x.StartingPrice,
+                        BuyOutPrice = x.BuyOutPrice,
+                        Picture = x.Picture
+                    })
+                    .ToListAsync();
+
+                return this.View(indexLoggedIn, items);
+            }
+
             return View();
         }
     }

@@ -2,50 +2,8 @@
     ViewData["Title"] = "Go Auction";
 }
 
-@if (!this.User.Identity.IsAuthenticated)
-{
-    <div id="welcome" class="container text-center">
-        <h1>Welcome to Go Auction!</h1>
-        <p>Your Price, Your Way.</p>
-        <a class="badge badge-success" asp-area="Identity" asp-page="/Account/Login"><h6>Get Started</h6></a>
-    </div>
-}
-else
-{
-    <hr/>
-    <div class="row d-flex justify-content-between" id="indexPageHolder">
-        <div class="col-2 justify-content-between">
-            <div>
-                <h3>Categories</h3>
-                <hr />
-                <div class="justify-content-between">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Electronics</td>
-                            </tr>
-                            <tr>
-                                <td>Jewellery</td>
-                            </tr>
-                            <tr>
-                                <td>Sport</td>
-                            </tr>
-                            <tr>
-                                <td>Art</td>
-                            </tr>
-                            <tr>
-                                <td>Clothes</td>
-                            </tr>
-                            <tr>
-                                <td>Other</td>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md 6 justify-content-between" id="rightSide">
-            <div>asds</div>
-        </div>
-    </div>
-}
+<div id="welcome" class="container text-center">
+    <h1>Welcome to Go Auction!</h1>
+    <p>Your Price, Your Way.</p>
+    <a class="badge badge-success" asp-area="Identity" asp-page="/Account/Login"><h6>Get Started</h6></a>
+</div>
