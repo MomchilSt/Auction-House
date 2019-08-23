@@ -145,6 +145,8 @@ namespace Auction.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("Picture");
+
                     b.Property<DateTime>("StartTime");
 
                     b.Property<decimal>("StartingPrice");

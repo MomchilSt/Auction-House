@@ -12,6 +12,7 @@ using System.Linq;
 using GlobalConstants;
 using Auction.Services.Interfaces;
 using Auction.Services.Services;
+using CloudinaryDotNet;
 
 namespace Auction.Web
 {
@@ -46,8 +47,19 @@ namespace Auction.Web
                 .AddEntityFrameworkStores<AuctionDbContext>()
                 .AddDefaultTokenProviders();
 
+            Account cloudinaryCredentials = new Account(
+                this.Configuration["Cloudinary:CloudName"],
+                this.Configuration["Cloudinary:ApiKey"],
+                this.Configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(cloudinaryCredentials);
+
+            services.AddSingleton(cloudinary);
+
             services.AddTransient<IAuctionHouseService, AuctionHouseService>();
             services.AddTransient<ICityService, CityService>();
+            services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

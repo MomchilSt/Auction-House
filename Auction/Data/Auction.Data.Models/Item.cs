@@ -30,6 +30,8 @@ namespace Auction.Data.Models
         public string AuctionHouseId { get; set; }
         public AuctionHouse AuctionHouse { get; set; }
 
+        public string Picture { get; set; }
+
         public ICollection<Bid> Bids { get; set; }
     }
 }

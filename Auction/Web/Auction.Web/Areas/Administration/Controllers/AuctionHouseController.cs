@@ -1,6 +1,6 @@
 ﻿using Auction.Services.Interfaces;
-using Auction.Web.InputModels;
-using Auction.Web.ViewModels;
+using Auction.Web.InputModels.AuctionHouse;
+using Auction.Web.ViewModels.AuctionHouse;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -19,10 +19,9 @@ namespace Auction.Web.Areas.Administration.Controllers
             this.cityService = cityService;
         }
 
-        [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var allCities = await cityService.GetCities().ToListAsync();
+            var allCities = await cityService.GetAllCities().ToListAsync();
 
             this.ViewData["cities"] = allCities.Select(cities => 
             new AuctionHouseCreateCityViewModel
@@ -39,7 +38,7 @@ namespace Auction.Web.Areas.Administration.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                var allCities = await this.cityService.GetCities().ToListAsync();
+                var allCities = await this.cityService.GetAllCities().ToListAsync();
 
                 this.ViewData["cities"] = allCities.Select(cities =>
                 new AuctionHouseCreateCityViewModel

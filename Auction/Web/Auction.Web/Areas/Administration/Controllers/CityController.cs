@@ -1,6 +1,6 @@
 ﻿using Auction.Data.Models;
 using Auction.Services.Interfaces;
-using Auction.Web.InputModels;
+using Auction.Web.InputModels.City;
 using GlobalConstants;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -26,7 +26,7 @@ namespace Auction.Web.Areas.Administration.Controllers
         {
             await this.cityService.CreateCity(cityCreateInputModel);
 
-            return this.Redirect("/");
+            return this.Redirect("/Administration/AuctionHouse/Create");
         }
     }
 }
