@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md justify-content-between rounded" id="rightSide">
+    <div id="items" class="col-md justify-content-between rounded" id="rightSide">
         <h3 class="text-center">Items being auctioned now</h3>
         <hr />
         @for (int i = 0; i < Model.Count(); i += 3)
@@ -47,8 +47,8 @@
                 {
                     @if (j < Model.Count())
                     {
-                        <div class="col-md-3">
-                            <h6 class="text-center mt-3">Name: @Model[j].Name</h6>
+                        <div class="item col-md-3">
+                            <h6 class="text-center mt-3">@Model[j].Name</h6>
                             <div class="image-holder d-flex justify-content-center">
                                 <a href="">
                                     <img src="@Model[j].Picture" class="img-thumbnail item-image rounded" alt="..." />
@@ -67,3 +67,4 @@
         }
     </div>
 </div>
+

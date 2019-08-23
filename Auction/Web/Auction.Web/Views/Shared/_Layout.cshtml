@@ -29,11 +29,11 @@
                         <ul class="navbar-nav">
                             <li class="nav-item active">
                                 <div class="dropdown show" id="administrationDropDown">
-                                    <a class="nav-link active dropdown-toggle" 
-                                       href="#" 
-                                       id="administration-DropDown" 
-                                       data-toggle="dropdown" 
-                                       aria-haspopup="true" 
+                                    <a class="nav-link active dropdown-toggle"
+                                       href="#"
+                                       id="administration-DropDown"
+                                       data-toggle="dropdown"
+                                       aria-haspopup="true"
                                        aria-expanded="false">
                                         Administration actions
                                     </a>
@@ -124,7 +124,7 @@
                     @if (this.User.Identity.IsAuthenticated)
                     {
                         <th id="searchBox" class="form-group justify-content-between">
-                            <input type="text" class="form-control" id="products-search-bar" name="search" placeholder="Search..." />
+                            <input type="text" class="form-control" id="items-search-bar" name="search" placeholder="Search..." />
                         </th>
                         <th>
                             <div id="clockbox"></div>
@@ -170,3 +170,19 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    $('#items-search-bar').on("change paste keyup", function () {
+        $('.item').show();
+
+        let searchValue = $('#items-search-bar').val();
+
+        for (let elem of $('.item')) {
+            let itemName = $($(elem).children()[0]).text();
+
+            if (!itemName.toLowerCase().includes(searchValue.toLowerCase())) {
+                $(elem).hide();
+            }
+        }
+    });
+</script>
