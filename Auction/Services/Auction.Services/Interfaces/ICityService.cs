@@ -1,5 +1,5 @@
 ﻿using Auction.Data.Models;
-using Auction.Web.InputModels;
+using Auction.Web.InputModels.City;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +10,6 @@ namespace Auction.Services.Interfaces
     {
         Task<bool> CreateCity(CityCreateInputModel inputModel);
 
-        IQueryable<City> GetCities();
+        IQueryable<City> GetAllCities();
     }
 }
