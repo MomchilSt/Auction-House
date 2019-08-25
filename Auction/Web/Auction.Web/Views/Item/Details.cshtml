@@ -1,0 +1,48 @@
+﻿@model Auction.Web.ViewModels.Item.ItemDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <hr class="hr-2" />
+@if (this.User.IsInRole("Admin"))
+{
+    <div class="d-flex justify-content-around mt-3">
+        <a href="/Administration/Item/Delete/@Model.Id" class="btn btn-danger" role="button">Delete auction</a>
+    </div>
+}
+<div class="d-flex justify-content-around row mt-5">
+    <div id="item-image-and-navigation-holder" class="w-45">
+        <div class="image-holder">
+            <img id="itemImgDetails" src="@Model.Picture" alt="..." class="img-thumbnail mt-5 w-100" />
+            <hr class="hr-2 mt-2" />
+        </div>
+    </div>
+    <div id="item-data-holder" class="w-45 mt-3">
+        <h5 class="text-center">Name</h5>
+        <hr class="hr-2  mt-4" />
+        <h3 class="text-center">@Model.Name</h3>
+        @if (Model.EndTime > DateTime.UtcNow && Model.StartTime < DateTime.UtcNow)
+        {
+            <h5 class="text-center mt-3">Remaining time: @Model.RemainingTime.ToString(@"dd\.hh\:mm\:ss")</h5>
+        }
+        else
+        {
+            <h5 class="text-center text-red mt-3">Auction ended</h5>
+        }
+        <hr class="hr-2  mt-4" />
+        <h5 class="text-center">Starting price: $@Model.StartingPrice.ToString("F2")</h5>
+        <h5 class="text-center">Buy out price: $@Model.BuyOutPrice.ToString("F2")</h5>
+        <hr class="hr-2  mt-5" />
+        <h5 class="text-center">Auctioned in : @Model.AuctionHouse.Name</h5>
+        <h5 class="text-center">Address: @Model.AuctionHouse.Address</h5>
+    </div>
+</div>
+<div>
+    <h3 class="text-center mt-4">Description</h3>
+    <hr class="hr-2 mt-4 w-70" />
+    <p class="text-center">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+    </p>
+</div>
