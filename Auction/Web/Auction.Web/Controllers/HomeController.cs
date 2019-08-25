@@ -5,6 +5,7 @@ using Auction.Web.ViewModels.Item;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System;
 
 namespace Auction.Web.Controllers
 {
@@ -29,8 +30,10 @@ namespace Auction.Web.Controllers
                         Name = x.Name,
                         StartingPrice = x.StartingPrice,
                         BuyOutPrice = x.BuyOutPrice,
+                        EndDate = x.EndTime,
                         Picture = x.Picture
                     })
+                    .OrderByDescending(x => x.EndDate)
                     .ToListAsync();
 
                 return this.View(indexLoggedIn, items);
