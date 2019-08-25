@@ -10,5 +10,7 @@ namespace Auction.Services.Interfaces
         Task<bool> Create(AuctionHouseCreateInputModel inputModel);
 
         IQueryable<AuctionHouse> GetAllAuctionHouses();
+
+        Task<AuctionHouse> GetById(string id);
     }
 }

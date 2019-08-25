@@ -10,5 +10,9 @@ namespace Auction.Services.Interfaces
         Task<bool> Create(ItemCreateInputModel inputModel);
 
         IQueryable<Item> GetAllItems();
+
+        Task<Item> GetById(string id);
+
+        Task<bool> Delete(string id);
     }
 }
