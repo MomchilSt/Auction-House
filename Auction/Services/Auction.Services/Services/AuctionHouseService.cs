@@ -2,6 +2,7 @@
 using Auction.Data.Models;
 using Auction.Services.Interfaces;
 using Auction.Web.InputModels.AuctionHouse;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,6 +49,12 @@ namespace Auction.Services.Services
             var auctionHouses = this.context.AuctionHouses;
 
             return auctionHouses;
+        }
+
+        public async Task<AuctionHouse> GetById(string id)
+        {
+            return await this.context.AuctionHouses
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }

@@ -3,6 +3,7 @@ using Auction.Data.Models;
 using Auction.Data.Models.Enums;
 using Auction.Services.Interfaces;
 using Auction.Web.InputModels.Item;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -66,5 +67,29 @@ namespace Auction.Services.Services
 
             return items;
         }
+
+        public async Task<Item> GetById(string id)
+        {
+            return await this.context.Items
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> Delete(string id)
+        {
+            var itemFromDb = this.context.Items.SingleOrDefault(x => x.Id == id);
+
+            //TODO
+            if (itemFromDb == null)
+            {
+                throw new ArgumentNullException(nameof(itemFromDb));
+            }
+
+            this.context.Items.Remove(itemFromDb);
+
+            int result = await this.context.SaveChangesAsync();
+
+            return result > 0;
+        }
+
     }
 }
