@@ -14,6 +14,8 @@ using System.Linq;
 
 namespace Auction.Web.Areas.Identity.Pages.Account
 {
+    using Controllers;
+
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
@@ -58,13 +60,25 @@ namespace Auction.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
-        public void OnGetAsync(string returnUrl = null)
+        public IActionResult OnGetAsync(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/");
+            }
+
             ReturnUrl = returnUrl;
+
+            return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/");
+            }
+
             returnUrl = "/Identity/Account/Login";
 
             if (ModelState.IsValid)

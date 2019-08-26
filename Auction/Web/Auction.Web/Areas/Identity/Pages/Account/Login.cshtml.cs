@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Auction.Web.Areas.Identity.Pages.Account
 {
+    using Controllers;
+
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
@@ -42,8 +44,13 @@ namespace Auction.Web.Areas.Identity.Pages.Account
             public string Password { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/");
+            }
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -53,10 +60,17 @@ namespace Auction.Web.Areas.Identity.Pages.Account
             //await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ReturnUrl = returnUrl ?? Url.Content("~/");
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/");
+            }
+
             returnUrl = "/Home/Index";
 
             if (ModelState.IsValid)
