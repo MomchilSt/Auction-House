@@ -7,7 +7,7 @@ namespace Auction.Services.Interfaces
 {
     public interface IItemService
     {
-        Task<bool> Create(ItemCreateInputModel inputModel);
+        Task<bool> Create(ItemCreateInputModel inputModel, string ownerId);
 
         IQueryable<Item> GetAllItems();
 

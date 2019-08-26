@@ -59,6 +59,7 @@ namespace Auction.Web
             services.AddTransient<IAuctionHouseService, AuctionHouseService>();
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
 
 
@@ -72,7 +73,7 @@ namespace Auction.Web
             {
                 using (var context = serviceScope.ServiceProvider.GetRequiredService<AuctionDbContext>())
                 {
-                    context.Database.EnsureCreated();
+                    //context.Database.EnsureCreated();
 
                     if (!context.Roles.Any())
                     {
@@ -99,6 +100,8 @@ namespace Auction.Web
                 app.UseStaticFiles();
 
                 app.UseAuthentication();
+
+                app.UseStatusCodePagesWithReExecute("/error/{0}");
 
                 app.UseMvc(routes =>
                 {

@@ -17,6 +17,8 @@ namespace Auction.Data
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<Receipt> Receipts { get; set; }
+
         public AuctionDbContext(DbContextOptions options)
             : base(options)
         {

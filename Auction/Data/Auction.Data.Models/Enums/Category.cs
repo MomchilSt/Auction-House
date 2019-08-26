@@ -6,7 +6,6 @@
         Jewellery = 201,
         Sport = 301,
         Art = 401,
-        Clothes = 501,
         Other = 601,
     }
 }

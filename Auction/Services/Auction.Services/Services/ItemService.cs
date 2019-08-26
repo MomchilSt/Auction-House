@@ -16,14 +16,16 @@ namespace Auction.Services.Services
 
         private readonly AuctionDbContext context;
         private readonly ICloudinaryService cloudinaryService;
+        private readonly IUserService userService;
 
-        public ItemService(AuctionDbContext context, ICloudinaryService cloudinaryService)
+        public ItemService(AuctionDbContext context, ICloudinaryService cloudinaryService, IUserService userService)
         {
             this.context = context;
             this.cloudinaryService = cloudinaryService;
+            this.userService = userService;
         }
 
-        public async Task<bool> Create(ItemCreateInputModel inputModel)
+        public async Task<bool> Create(ItemCreateInputModel inputModel, string ownerId)
         {
             var startTime = DateTime.UtcNow;
             var endTime = startTime.AddHours(inputModel.AuctionDuration);
@@ -56,6 +58,9 @@ namespace Auction.Services.Services
             };
 
             this.context.Items.Add(item);
+            var owner = await this.userService.GetById(ownerId);
+            owner.ItemsAuctioned.Add(item);
+
             int result = await this.context.SaveChangesAsync();
 
             return result > 0;
@@ -90,6 +95,5 @@ namespace Auction.Services.Services
 
             return result > 0;
         }
-
     }
 }

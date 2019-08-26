@@ -27,11 +27,11 @@ namespace Auction.Web.Controllers
 
             AuctionUser user = await this.userService.GetById(id);
 
-            IEnumerable<ProfileItemViewModel> items = user.ItemsAuctioned.Select(item => new ProfileItemViewModel
+            List<ProfileItemViewModel> items = user.ItemsAuctioned.Select(item => new ProfileItemViewModel
             {
                 Name = item.Name,
                 Picture = item.Picture
-            });
+            }).ToList();
 
             var viewModel = new ProfileDetailsViewModel
             {
@@ -57,11 +57,11 @@ namespace Auction.Web.Controllers
 
             var userFromDb = await this.userService.GetById(inputModel.Id);
 
-            var itemsSold = userFromDb.ItemsAuctioned.Select(item => new ProfileItemViewModel
+            List<ProfileItemViewModel> itemsSold = userFromDb.ItemsAuctioned.Select(item => new ProfileItemViewModel
             {
                 Name = item.Name,
                 Picture = item.Picture
-            });
+            }).ToList();
 
             var viewModel = new ProfileDetailsViewModel
             {

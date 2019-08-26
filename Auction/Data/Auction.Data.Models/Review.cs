@@ -1,4 +1,6 @@
-﻿namespace Auction.Data.Models
+﻿using System.Collections.Generic;
+
+namespace Auction.Data.Models
 {
     public class Review
     {
@@ -8,6 +10,7 @@
 
         public string Description { get; set; }
 
-        public decimal Rating { get; set; }
+        public string AuctionHouseId { get; set; }
+        public AuctionHouse AuctionHouse { get; set; }
     }
 }

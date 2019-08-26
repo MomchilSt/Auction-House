@@ -1,0 +1,102 @@
+﻿@model Auction.Web.ViewModels.User.ProfileDetailsViewModel
+
+@{
+    ViewData["Title"] = "Profile Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hr />
+<h3 class="text-center my-5">My Profile</h3>
+<div class="d-flex justify-content-around row mt-5">
+    <div id="user-information-holder" class="w-45">
+        @if (Model.FullName is null)
+        {
+            <h5 class="text-center">Username</h5>
+            <hr class="hr-2  mt-4" />
+            <h3 class="text-center">Hello @Model.Username!</h3>
+            <form method="post" action="/User/Edit" class="p-5 w-30 mx-auto mt-3" id="profileRename">
+                <div asp-validation="ModelOnly"></div>
+                <div class="d-flex justify-content-center">
+                    <label asp-for="FullName" class="h4">Full Name</label>
+                </div>
+                <input type="text" class="form-control text-center" id="fullName" placeholder="Enter full name..."
+                       asp-for="FullName">
+                <span asp-validation-for="FullName" class="text-danger"></span>
+                <input type="hidden" value="@Model.Id" id="userId" asp-for="Id" />
+                <hr class="hr-2 mt-4">
+                <div class="d-flex justify-content-center mt-3">
+                    <button id="Btns" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <h5 class="text-center">Name</h5>
+            <hr class="hr-2  mt-4" />
+            <h3 class="text-center">Hello @Model.FullName!</h3>
+            <form method="post" action="/User/Edit" class="p-5 w-30 mx-auto mt-3" id="profileRename">
+                <div asp-validation="ModelOnly"></div>
+                <div class="d-flex justify-content-center">
+                    <label asp-for="FullName" class="h4">Edit Name</label>
+                </div>
+                <input type="text" class="form-control text-center" id="fullName" placeholder="Enter full name..."
+                       asp-for="FullName">
+                <span asp-validation-for="FullName" class="text-danger"></span>
+                <input type="hidden" value="@Model.Id" id="userId" asp-for="Id" />
+                <hr class="hr-2 mt-4">
+                <div class="d-flex justify-content-center mt-3">
+                    <button id="Btns" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        }
+    </div>
+    <div id="item-data-holder" class="w-45">
+        <h5 class="text-center">Items sold</h5>
+        <hr class="hr-2  mt-4" />
+        @if (Model.ItemsAuctioned.Count() == 0)
+        {
+            <h6 class="text-center my-5">You don't have any auctioned items yet.</h6>
+        }
+        else
+        {
+            <div id="itemsSold">
+                <div class="order-info row mt-4">
+                    <h3 class="col-md-3 text-left">Image</h3>
+                    <h3 class="col-md-2 text-right">Name</h3>
+                </div>
+                <hr class="hr-2 bg-primary">
+                @for (int i = 0; i < Model.ItemsAuctioned.Count(); i++)
+                {
+                    <div class="order row">
+                        <h5 class="col-md-1 text-left">@(i + 1)</h5>
+                        <div class="col-md-3">
+                            <img class="img-thumbnail product-cart-image"
+                                 src="@Model.ItemsAuctioned[i]" />
+                        </div>
+                        <h5 class="col-md-3 text-right">@Model.ItemsAuctioned[i].Name</h5>
+                    </div>
+                }
+            </div>
+         }
+    </div>
+</div>
+
+
+<div id="itemsSold">
+    <div class="order-info row mt-4">
+        <h3 class="col-md-3 text-left">Image</h3>
+        <h3 class="col-md-2 text-right">Name</h3>
+    </div>
+    <hr class="hr-2 bg-primary">
+    @for (int i = 0; i < Model.ItemsAuctioned.Count(); i++)
+    {
+        <div class="order row">
+            <h5 class="col-md-1 text-left">@(i + 1)</h5>
+            <div class="col-md-3">
+                <img class="img-thumbnail product-cart-image"
+                     src="@Model.ItemsAuctioned[i]" />
+            </div>
+            <h5 class="col-md-3 text-right">@Model.ItemsAuctioned[i].Name</h5>
+        </div>
+    }
+</div>

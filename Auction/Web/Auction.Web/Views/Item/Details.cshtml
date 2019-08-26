@@ -5,12 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <hr class="hr-2" />
+<hr class="hr-2" />
 @if (this.User.IsInRole("Admin"))
 {
-    <div class="d-flex justify-content-around mt-3">
-        <a href="/Administration/Item/Delete/@Model.Id" class="btn btn-danger" role="button">Delete auction</a>
-    </div>
+<div class="d-flex justify-content-around my-5">
+    <form action="/Administration/Item/Delete" method="post">
+        <input type="hidden" value="@Model.Id" name="itemId" />
+        <button class="btn btn-danger" id="itemDelete">
+            Delete auction
+        </button>
+    </form>
+</div>
 }
 <div class="d-flex justify-content-around row mt-5">
     <div id="item-image-and-navigation-holder" class="w-45">
@@ -35,14 +40,13 @@
         <h5 class="text-center">Starting price: $@Model.StartingPrice.ToString("F2")</h5>
         <h5 class="text-center">Buy out price: $@Model.BuyOutPrice.ToString("F2")</h5>
         <hr class="hr-2  mt-5" />
-        <h5 class="text-center">Auctioned in : @Model.AuctionHouse.Name</h5>
-        <h5 class="text-center">Address: @Model.AuctionHouse.Address</h5>
+        <h5 class="text-center">Auctioned in : <a href="/AuctionHouse/Details/@Model.AuctionHouseId">@Model.AuctionHouse.Name</a></h5>
     </div>
 </div>
 <div>
     <h3 class="text-center mt-4">Description</h3>
     <hr class="hr-2 mt-4 w-70" />
     <p class="text-center">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        @Model.Description
     </p>
 </div>

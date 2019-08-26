@@ -1,8 +1,8 @@
 ﻿@model List<Auction.Web.ViewModels.Item.ItemHomeViewModel>
 
 @{
-    ViewData["Title"] = "Go Auction";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+        ViewData["Title"] = "Go Auction";
+        Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <hr />
@@ -15,54 +15,77 @@
                 <table>
                     <thead>
                         <tr>
-                            <td>Electronics</td>
+                            <td><a href="/Home/Electronics">Electronics</a></td>
                         </tr>
                         <tr>
-                            <td>Jewellery</td>
+                            <td><a href="/Home/Jewellery">Jewellery</a></td>
                         </tr>
                         <tr>
-                            <td>Sport</td>
+                            <td><a href="/Home/Sport">Sport</a></td>
                         </tr>
                         <tr>
-                            <td>Art</td>
+                            <td><a href="/Home/Art">Art</a></td>
                         </tr>
                         <tr>
-                            <td>Clothes</td>
-                        </tr>
-                        <tr>
-                            <td>Other</td>
+                            <td><a href="/Home/Other">Other</a></td>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </div>
-    <div id="items" class="col-md justify-content-between rounded" id="rightSide">
+    <div id="items" class="col-md justify-content-between rounded">
         <h3 class="text-center">Items being auctioned now</h3>
         <hr />
-        @for (int i = 0; i < Model.Count(); i += 3)
+        @if (Model.Count != 0)
         {
-            <div class="row d-flex justify-content-around my-5">
-                @for (int j = i; j < i + 3; j++)
-                {
-                    @if (j < Model.Count())
+            @for (int i = 0; i < Model.Count(); i += 3)
+            {
+                <div class="row d-flex justify-content-around my-5">
+                    @for (int j = i; j < i + 3; j++)
                     {
-                        <div class="item col-md-3">
-                            <h6 class="text-center mt-3">@Model[j].Name</h6>
-                            <div class="image-holder d-flex justify-content-center">
-                                <a href="">
-                                    <img src="@Model[j].Picture" class="img-thumbnail item-image rounded" alt="..." />
-                                </a>
-                            </div>
-                            <h6 class="text-center mt-3">Starting price: @Model[j].StartingPrice.ToString("F2")</h6>
-                            <h6 class="text-center mt-3">Buy out price: @Model[j].BuyOutPrice.ToString("F2")</h6>
-                        </div>
+                        @if (j < Model.Count())
+                        {
+                            @if (Model[j].EndDate > DateTime.UtcNow)
+                            {
+                                <div class="item col-md-3">
+                                    <h6 class="text-center mt-3">@Model[j].Name</h6>
+                                    <div class="image-holder d-flex justify-content-center">
+                                        <a href="/Item/Details/@Model[j].Id">
+                                            <img src="@Model[j].Picture" class="img-thumbnail item-image rounded" alt="..." />
+                                        </a>
+                                    </div>
+                                    <h6 class="text-center mt-3">Starting price: @Model[j].StartingPrice.ToString("F2")</h6>
+                                    <h6 class="text-center mt-3">Buy out price: @Model[j].BuyOutPrice.ToString("F2")</h6>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="item col-md-3">
+                                    <h6 class="text-center text-red mt-3">@Model[j].Name</h6>
+                                    <div class="image-holder d-flex justify-content-center">
+                                        <a href="/Item/Details/@Model[j].Id">
+                                            <img src="@Model[j].Picture" class="auctionEnded img-thumbnail item-image rounded" alt="..." />
+                                        </a>
+                                    </div>
+                                    <h6 class="text-center mt-3">Starting price: @Model[j].StartingPrice.ToString("F2")</h6>
+                                    <h6 class="text-center mt-3">Buy out price: @Model[j].BuyOutPrice.ToString("F2")</h6>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-md-3 empty"></div>
+                        }
                     }
-                    else
-                    {
-                        <div class="col-md-3 empty"></div>
-                    }
-                }
+                </div>
+            }
+        }
+        else
+        {
+            <div class="my-5 justify-content-center">
+                <h4 class="text-center">Sorry, no results found</h4>
+                <h6 class="text-center">Try a different category...</h6>
             </div>
         }
     </div>
