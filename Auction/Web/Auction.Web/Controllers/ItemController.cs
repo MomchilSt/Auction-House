@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Auction.Data.Models;
 using Auction.Services.Interfaces;
@@ -16,11 +17,13 @@ namespace Auction.Web.Controllers
     {
         private readonly IAuctionHouseService auctionHouseService;
         private readonly IItemService itemService;
+        private readonly IUserService userService;
 
-        public ItemController(IAuctionHouseService auctionHouseService, IItemService itemService)
+        public ItemController(IAuctionHouseService auctionHouseService, IItemService itemService, IUserService userService)
         {
             this.auctionHouseService = auctionHouseService;
             this.itemService = itemService;
+            this.userService = userService;
         }
 
         public async Task<IActionResult> Create()
@@ -54,9 +57,11 @@ namespace Auction.Web.Controllers
                 return this.View();
             }
 
-            await this.itemService.Create(inputModel);
+             var ownerId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            return this.Redirect("/");
+            await this.itemService.Create(inputModel, ownerId);
+
+            return this.RedirectToHome();
         }
 
         public async Task<IActionResult> Details(string id)
@@ -66,6 +71,7 @@ namespace Auction.Web.Controllers
 
             if (itemFromDb == null)
             {
+                //TODO CHECK msg
                 this.ShowErrorMessage(AlertMessages.ItemNotFound);
                 return this.RedirectToHome();
             }
