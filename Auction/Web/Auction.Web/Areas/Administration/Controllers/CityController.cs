@@ -26,6 +26,7 @@ namespace Auction.Web.Areas.Administration.Controllers
         {
             await this.cityService.CreateCity(cityCreateInputModel);
 
+
             return this.Redirect("/Administration/AuctionHouse/Create");
         }
     }

@@ -12,5 +12,16 @@ namespace Auction.Web.Areas.Administration.Controllers
     [Area(BasicConstants.AdministrationArea)]
     public abstract class AdminController : Controller
     {
+        protected void ShowErrorMessage(string message)
+        {
+            this.TempData[BasicConstants.TempErrorMessage] = message;
+        }
+
+        protected void ShowSuccessMessage(string message)
+        {
+            this.TempData[BasicConstants.TempSuccessMessage] = message;
+        }
+
+        protected IActionResult RedirectToHome() => this.Redirect("/");
     }
 }

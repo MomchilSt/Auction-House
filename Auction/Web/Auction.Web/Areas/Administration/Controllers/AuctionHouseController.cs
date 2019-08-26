@@ -47,13 +47,14 @@ namespace Auction.Web.Areas.Administration.Controllers
                 })
                     .ToList();
 
+
                 return this.View();
             }
          
 
             await this.auctionHouseService.Create(inputModel);
 
-            return this.Redirect("/");
+            return RedirectToHome();
         }
     }
 }
