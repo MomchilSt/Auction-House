@@ -17,12 +17,17 @@ namespace Auction.Services.Services
         private readonly AuctionDbContext context;
         private readonly ICloudinaryService cloudinaryService;
         private readonly IUserService userService;
+        private readonly IReceiptService receiptService;
 
-        public ItemService(AuctionDbContext context, ICloudinaryService cloudinaryService, IUserService userService)
+        public ItemService(AuctionDbContext context,
+            ICloudinaryService cloudinaryService,
+            IUserService userService,
+            IReceiptService receiptService)
         {
             this.context = context;
             this.cloudinaryService = cloudinaryService;
             this.userService = userService;
+            this.receiptService = receiptService;
         }
 
         public async Task<bool> Create(ItemCreateInputModel inputModel, string ownerId)
@@ -30,11 +35,13 @@ namespace Auction.Services.Services
             var startTime = DateTime.UtcNow;
             var endTime = startTime.AddHours(inputModel.AuctionDuration);
 
-            string pictureUrl = await this.cloudinaryService.UploadPictureAsync(
+            string pictureUrl = await this.cloudinaryService
+                .UploadPictureAsync(
                 inputModel.Picture,
                 inputModel.Name);
 
-            var auctionHouseFromDb = this.context.AuctionHouses
+            var auctionHouseFromDb = this.context
+                .AuctionHouses
                 .FirstOrDefault(x => x.Name == inputModel.AuctionHouse);
 
             Category category;
@@ -43,6 +50,8 @@ namespace Auction.Services.Services
             {
                 throw new ArgumentNullException(itemNullException);
             }
+
+            var owner = await this.userService.GetById(ownerId);
 
             var item = new Item
             {
@@ -54,14 +63,15 @@ namespace Auction.Services.Services
                 StartTime = startTime,
                 EndTime = endTime,
                 AuctionHouse = auctionHouseFromDb,
-                Description = inputModel.Description
+                Description = inputModel.Description,
             };
 
+            item.AuctionUser = owner;
+            item.Status = ItemStatus.InAction;
             this.context.Items.Add(item);
-            var owner = await this.userService.GetById(ownerId);
-            owner.ItemsAuctioned.Add(item);
 
-            int result = await this.context.SaveChangesAsync();
+            int result = await this.context
+                .SaveChangesAsync();
 
             return result > 0;
         }
@@ -75,13 +85,16 @@ namespace Auction.Services.Services
 
         public async Task<Item> GetById(string id)
         {
-            return await this.context.Items
+            return await this.context.
+                Items
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> Delete(string id)
         {
-            var itemFromDb = this.context.Items.SingleOrDefault(x => x.Id == id);
+            var itemFromDb = this.context
+                .Items
+                .SingleOrDefault(x => x.Id == id);
 
             //TODO
             if (itemFromDb == null)
@@ -89,9 +102,30 @@ namespace Auction.Services.Services
                 throw new ArgumentNullException(nameof(itemFromDb));
             }
 
-            this.context.Items.Remove(itemFromDb);
+            this.context
+                .Items.
+                Remove(itemFromDb);
 
-            int result = await this.context.SaveChangesAsync();
+            int result = await this.context
+                .SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public async Task<bool> Buy(string id, string ownerId)
+        {
+            var itemFromDb = await this.context
+                .Items
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            var user = await this.userService.GetById(ownerId);
+            itemFromDb.EndTime = DateTime.UtcNow;
+            itemFromDb.Status = ItemStatus.Bought;
+
+            await this.receiptService.CreateReceipt(itemFromDb.Id, ownerId);
+
+            int result = await this.context
+                .SaveChangesAsync();
 
             return result > 0;
         }

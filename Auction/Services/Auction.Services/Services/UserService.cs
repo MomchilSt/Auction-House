@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Auction.Data;
 using Auction.Data.Models;
 using Auction.Services.Interfaces;
+using Auction.Web.InputModels.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auction.Services.Services
@@ -14,6 +15,18 @@ namespace Auction.Services.Services
         public UserService(AuctionDbContext context)
         {
             this.context = context;
+        }
+
+        public async Task<bool> Delete(string id, string name)
+        {
+            var userFromDb = await this.context.Users.SingleOrDefaultAsync(x => x.Id == id);
+            var item = userFromDb.ItemsAuctioned.SingleOrDefault(x => x.Name == name);
+
+            userFromDb.ItemsAuctioned.Remove(item);
+
+            int result = await this.context.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<bool> Edit(string id, string fullName)
@@ -30,7 +43,9 @@ namespace Auction.Services.Services
 
         public async Task<AuctionUser> GetById(string id)
         {
-            return await this.context.Users.SingleOrDefaultAsync(user => user.Id == id);
+            return await this.context.Users
+                .Include(x => x.ItemsAuctioned)
+                .SingleOrDefaultAsync(user => user.Id == id);
         }
     }
 }

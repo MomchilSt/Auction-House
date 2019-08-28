@@ -44,6 +44,21 @@ namespace Auction.Services.Services
             return result > 0;
         }
 
+        public async Task<bool> CreateReview(string id, string author, AuctionHouseReviewInputModel inputModel)
+        {
+            var review = new Review
+            {
+                Author = inputModel.Author,
+                Description = inputModel.Description,
+                AuctionHouseId = id
+            };
+
+            context.Reviews.Add(review);
+            int result = await context.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         public IQueryable<AuctionHouse> GetAllAuctionHouses()
         {
             var auctionHouses = this.context.AuctionHouses;
@@ -54,7 +69,15 @@ namespace Auction.Services.Services
         public async Task<AuctionHouse> GetById(string id)
         {
             return await this.context.AuctionHouses
+                .Include(x => x.Reviews)
                 .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<AuctionHouse> GetByName(string name)
+        {
+            return await this.context.AuctionHouses
+                .Include(x => x.Reviews)
+                .SingleOrDefaultAsync(x => x.Name == name);
         }
     }
 }

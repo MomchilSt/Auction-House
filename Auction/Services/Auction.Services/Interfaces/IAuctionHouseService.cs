@@ -12,5 +12,9 @@ namespace Auction.Services.Interfaces
         IQueryable<AuctionHouse> GetAllAuctionHouses();
 
         Task<AuctionHouse> GetById(string id);
+
+        Task<bool> CreateReview(string id, string author, AuctionHouseReviewInputModel inputModel);
+
+        Task<AuctionHouse> GetByName(string name);
     }
 }
