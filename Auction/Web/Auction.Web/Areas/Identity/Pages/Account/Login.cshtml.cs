@@ -44,7 +44,7 @@ namespace Auction.Web.Areas.Identity.Pages.Account
             public string Password { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
+        public IActionResult OnGetAsync(string returnUrl = null)
         {
             if (this.User.Identity.IsAuthenticated)
             {

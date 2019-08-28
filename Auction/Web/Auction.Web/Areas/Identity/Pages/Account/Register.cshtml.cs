@@ -84,7 +84,8 @@ namespace Auction.Web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var isRoot = !_userManager.Users.Any();
-                var user = new AuctionUser { UserName = Input.Username, Email = Input.Email };
+                var user = new AuctionUser { UserName = Input.Username,
+                    Email = Input.Email};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

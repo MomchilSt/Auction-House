@@ -7,8 +7,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center p-3 w-30 mx-auto mt-3">
-    <h3 class="text-center p-3 w-30 mx-auto">Create Auction House</h3>
+<div class="text-center p-3 mx-auto mt-3">
+    <h3 class="text-center p-3 mx-auto">Create Auction House</h3>
     <form method="post" action="/Administration/AuctionHouse/Create" class="p-3 mx-auto mt-3" id="auctionHouseCreateForm">
         <div asp-validation="ModelOnly"></div>
         <div class="d-flex justify-content-center">
@@ -17,19 +17,19 @@
         <input type="text" class="form-control text-center" id="name" placeholder="Name..."
                asp-for="Name">
         <span asp-validation-for="Name" class="text-danger"></span>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center mt-3">
             <label asp-for="Address" class="h4">Address</label>
         </div>
         <input type="text" class="form-control text-center" id="address" placeholder="Address..."
                asp-for="Address">
         <span asp-validation-for="Address" class="text-danger"></span>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center mt-3">
             <label asp-for="Description" class="h4">Description</label>
         </div>
-        <input type="text" class="form-control text-center" id="description" placeholder="Description..."
-               asp-for="Description">
+        <textarea type="text" rows="3" class="form-control text-center" id="description" placeholder="Description..."
+               asp-for="Description"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center mt-3">
             <label asp-for="City" class="h4">City</label>
         </div>
         <select class="form-control text-center" id="city" asp-for="City">

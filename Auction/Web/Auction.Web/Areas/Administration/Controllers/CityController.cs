@@ -16,9 +16,9 @@ namespace Auction.Web.Areas.Administration.Controllers
             this.cityService = cityService;
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
