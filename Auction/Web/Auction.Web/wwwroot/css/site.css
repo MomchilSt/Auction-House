@@ -1,12 +1,45 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-.auctionEnded {
-    border-color: red;
-}
-
 .text-red {
     color: red;
+}
+
+.mapouter {
+    border-radius: 10% !important;
+    position: relative;
+    text-align: right;
+    height: 500px;
+    width: 500px;
+}
+
+.gmap_canvas {
+    border-radius: 10% !important;
+    overflow: hidden;
+    background: none !important;
+    height: 500px;
+    width: 500px;
+}
+
+.review-holder {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+}
+
+
+.custom-button {
+    display: block;
+    background: #4E9CAF;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.sold-item-picture {
+    max-width: 70%;
 }
 
 #itemImgDetails {
@@ -17,8 +50,16 @@ for details on configuring this project to bundle and minify static web assets. 
     width: 100%
 }
 
-w-70 {
+.w-70 {
     width: 70%;
+}
+
+.w-55 {
+    width: 55%;
+}
+
+.w-30 {
+    width: 30%
 }
 
 .w-45{
@@ -27,6 +68,10 @@ w-70 {
 
 .h-45 {
     height: 45%;
+}
+
+.auctionEnded {
+    border-color: red;
 }
 
 .item-image {

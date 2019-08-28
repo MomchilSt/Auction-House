@@ -15,6 +15,8 @@ namespace Auction.Web.Controllers
 {
     public class ItemController : BaseController
     {
+        private const string DetailsRoute = "Details";
+
         private readonly IAuctionHouseService auctionHouseService;
         private readonly IItemService itemService;
         private readonly IUserService userService;
@@ -97,6 +99,21 @@ namespace Auction.Web.Controllers
             };
 
             return this.View(item);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Buy(string id)
+        {
+            var ownerId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            if (ownerId == null)
+            {
+                //TODO CHECK
+            }
+
+            await this.itemService.Buy(id, ownerId);
+
+            return RedirectToHome();
         }
     }
 }   

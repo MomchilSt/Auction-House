@@ -1,30 +1,43 @@
 ﻿@model Auction.Web.ViewModels.AuctionHouse.AuctionHouseDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Model.Name + " Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<hr class="hr-2 mt-4" />
+<div class="d-flex justify-content-around my-5">
+    <form action="/AuctionHouse/Review" method="get">
+        <button class="btn btn-primary" id="Btns">
+            Write a review
+        </button>
+    </form>
+</div>  
 <div class="d-flex justify-content-around row mt-5">
     <div id="auctionHouse-name-and-address-holder" class="w-45">
         <h5 class="text-center">Auction house</h5>
         <hr class="hr-2  mt-4" />
-        <h3 class="text-center">@Model.Name</h3>
-        <h5 class="text-center mt-5">@Model.Address</h5>
+        <h3 class="text-center">@Model.Name has @Model.Reviews.Count() reviews.</h3>
         <hr class="hr-2 mt-4" />
-        <p class="text-center">@Model.Description</p>
-        <div id="reviews-holder" class="w-45 mt-3">
-            <h5 class="text-center"><a href="/AuctionHouse/Review/@Model.Id">Write a review</a></h5>
+        <p class="text-center">It's located on @Model.Address</p>
+        <hr class="hr-2 mt-5" />
+        <h5 class="text-center">Description</h5>
+        <p class="text-center mt-5">@Model.Description</p>
+    </div>
+    <div id="auctionHouse-reviews" class="w-45">
+        <div id="reviews-holder">
+            @foreach (var review in Model.Reviews)
+            {
+
+                <h6 class="text-center mt-4">@review.Author</h6>
+                <div class="review-holder">
+                    <div class="d-flex justify-content-around">
+                        <p class="text-center mt-3">@review.Description</p>
+                    </div>
+                    
+                </div>
+                <hr class="hr-2 mt-4 w-45" />
+            }
         </div>
     </div>
 </div>
-@foreach (var review in Model.Reviews)
-{
-    <div class="d-flex justify-content-around row mt-5">
-        <div id="authorHolder" class="w-45">
-            <h5>@review.Username</h5>
-        </div>
-    </div>
-    <hr class="hr-2 mt-4 w-70" />
-    <p class="text-center">@review.Description</p>
-}

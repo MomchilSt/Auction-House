@@ -1,31 +1,41 @@
 ﻿@model Auction.Web.ViewModels.Item.ItemDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name + " Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <hr class="hr-2" />
 @if (this.User.IsInRole("Admin"))
 {
-<div class="d-flex justify-content-around my-5">
-    <form action="/Administration/Item/Delete" method="post">
-        <input type="hidden" value="@Model.Id" name="itemId" />
-        <button class="btn btn-danger" id="itemDelete">
-            Delete auction
-        </button>
-    </form>
-</div>
+    <div class="d-flex justify-content-around my-5">
+        <a class=" btn btn-danger" href="/Administration/Item/Delete/@Model.Id">Delete auction</a>
+    </div>
 }
 <div class="d-flex justify-content-around row mt-5">
     <div id="item-image-and-navigation-holder" class="w-45">
         <div class="image-holder">
             <img id="itemImgDetails" src="@Model.Picture" alt="..." class="img-thumbnail mt-5 w-100" />
             <hr class="hr-2 mt-2" />
+            <h4 class="text-center mt-3">
+                $@Model.BuyOutPrice.ToString("F2")
+            </h4>
+            @if (Model.EndTime > DateTime.UtcNow && Model.StartTime < DateTime.UtcNow)
+            {
+                <form class="text-center mt-2" action="/Item/Buy" method="post">
+                    <input type="hidden" value="@Model.Id" name="id" />
+                    <button class="btn btn-primary w-25" id="Btns">
+                        Buy
+                    </button>
+                </form>
+            }
+            else
+            {
+                <h6 class="text-center">Sorry but auction ended</h6>
+            }
         </div>
     </div>
     <div id="item-data-holder" class="w-45 mt-3">
-        <h5 class="text-center">Name</h5>
         <hr class="hr-2  mt-4" />
         <h3 class="text-center">@Model.Name</h3>
         @if (Model.EndTime > DateTime.UtcNow && Model.StartTime < DateTime.UtcNow)
@@ -37,16 +47,37 @@
             <h5 class="text-center text-red mt-3">Auction ended</h5>
         }
         <hr class="hr-2  mt-4" />
-        <h5 class="text-center">Starting price: $@Model.StartingPrice.ToString("F2")</h5>
-        <h5 class="text-center">Buy out price: $@Model.BuyOutPrice.ToString("F2")</h5>
+        <h5 class="text-center">Starting price:</h5>
+        <h4 class="text-center">$@Model.StartingPrice.ToString("F2")</h4>
+        @if (Model.EndTime > DateTime.UtcNow && Model.StartTime < DateTime.UtcNow)
+        {
+            <form class="mt-5 p-3 mx-auto">
+                <input type="number" class="form-control text-center" id="bid" placeholder="Place your bid...">
+                <div class="d-flex justify-content-center mt-3">
+                    <button id="Btns" class="w-30 mt-2 btn btn-primary">Bid</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <form class="mt-5 p-3 mx-auto">
+                <input type="number" class="form-control text-center" id="bid" placeholder="Place your bid..." disabled>
+                <div class="d-flex justify-content-center mt-3">
+                    <button id="Btns" class="w-30 mt-2 btn btn-primary" disabled>Bid</button>
+                </div>
+            </form>
+        }
         <hr class="hr-2  mt-5" />
-        <h5 class="text-center">Auctioned in : <a href="/AuctionHouse/Details/@Model.AuctionHouseId">@Model.AuctionHouse.Name</a></h5>
+        <h5 class="text-center mt-2">
+            Auctioned in :
+            <a class="text-center mt-3 custom-button" id="Btns"
+               href="/AuctionHouse/Details/@Model.AuctionHouse.Id">@Model.AuctionHouse.Name</a>
+        </h5>
     </div>
 </div>
-<div>
-    <h3 class="text-center mt-4">Description</h3>
-    <hr class="hr-2 mt-4 w-70" />
-    <p class="text-center">
-        @Model.Description
-    </p>
-</div>
+<hr class="mt-5" />
+
+<h3 class="text-center mt-4">Description</h3>
+<p class="text-center mt-3">
+    @Model.Description
+</p>

@@ -1,7 +1,7 @@
 ﻿@model Auction.Web.ViewModels.User.ProfileDetailsViewModel
 
 @{
-    ViewData["Title"] = "Profile Details";
+    ViewData["Title"] = Model.Username + " Profile Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,12 +9,12 @@
 <h3 class="text-center my-5">My Profile</h3>
 <div class="d-flex justify-content-around row mt-5">
     <div id="user-information-holder" class="w-45">
-        @if (Model.FullName is null)
+        @if (Model.FullName == null)
         {
             <h5 class="text-center">Username</h5>
             <hr class="hr-2  mt-4" />
             <h3 class="text-center">Hello @Model.Username!</h3>
-            <form method="post" action="/User/Edit" class="p-5 w-30 mx-auto mt-3" id="profileRename">
+            <form method="post" action="/User/Edit" class="p-5 mx-auto mt-3" id="profileRename">
                 <div asp-validation="ModelOnly"></div>
                 <div class="d-flex justify-content-center">
                     <label asp-for="FullName" class="h4">Full Name</label>
@@ -34,7 +34,7 @@
             <h5 class="text-center">Name</h5>
             <hr class="hr-2  mt-4" />
             <h3 class="text-center">Hello @Model.FullName!</h3>
-            <form method="post" action="/User/Edit" class="p-5 w-30 mx-auto mt-3" id="profileRename">
+            <form method="post" action="/User/Edit" class="p-5 mx-auto mt-3" id="profileRename">
                 <div asp-validation="ModelOnly"></div>
                 <div class="d-flex justify-content-center">
                     <label asp-for="FullName" class="h4">Edit Name</label>
@@ -51,7 +51,7 @@
         }
     </div>
     <div id="item-data-holder" class="w-45">
-        <h5 class="text-center">Items sold</h5>
+        <h5 class="text-center">Items auctioned</h5>
         <hr class="hr-2  mt-4" />
         @if (Model.ItemsAuctioned.Count() == 0)
         {
@@ -60,21 +60,29 @@
         else
         {
             <div id="itemsSold">
-                <div class="order-info row mt-4">
-                    <h3 class="col-md-3 text-left">Image</h3>
-                    <h3 class="col-md-2 text-right">Name</h3>
+                <div class="item-info row mt-4">
+                    <h4 class="col-md-1">#</h4>
+                    <h4 class="col-md-4">Image</h4>
+                    <h4 class="col-md-2">Name</h4>
                 </div>
-                <hr class="hr-2 bg-primary">
+                <hr class="hr-2 mt-2">
                 @for (int i = 0; i < Model.ItemsAuctioned.Count(); i++)
                 {
-                    <div class="order row">
-                        <h5 class="col-md-1 text-left">@(i + 1)</h5>
-                        <div class="col-md-3">
-                            <img class="img-thumbnail product-cart-image"
-                                 src="@Model.ItemsAuctioned[i]" />
-                        </div>
-                        <h5 class="col-md-3 text-right">@Model.ItemsAuctioned[i].Name</h5>
-                    </div>
+            <div class="item row">
+                <h5 class="col-md-1 mt-3 text-left">@(i + 1)</h5>
+                <div class="col-md-4">
+                    <img class="img-thumbnail sold-item-picture"
+                         src="@Model.ItemsAuctioned[i].Picture" />
+                </div>
+                <h5 class="col-md-2 text-right mt-4">@Model.ItemsAuctioned[i].Name</h5>
+                <form class="col-md-4 mt-3 text-center" action="/User/Delete"
+                      method="post">
+                    <input type="hidden" value="@Model.ItemsAuctioned[i].Name" name="name" />
+                    <button class="btn btn-danger">
+                        Delete
+                    </button>
+                </form>
+            </div>
                 }
             </div>
          }

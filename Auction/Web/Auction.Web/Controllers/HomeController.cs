@@ -19,7 +19,13 @@ namespace Auction.Web.Controllers
         {
             this.itemService = itemService;
         }
-        public async Task<IActionResult> Index(string category)
+
+        public IActionResult Contact()
+        {
+            return this.View();
+        }
+
+        public async Task<IActionResult> Index()
         {
             if (this.User.Identity.IsAuthenticated)
             {

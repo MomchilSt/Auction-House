@@ -60,6 +60,7 @@ namespace Auction.Web
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IReceiptService, ReceiptService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
 
 
@@ -73,7 +74,7 @@ namespace Auction.Web
             {
                 using (var context = serviceScope.ServiceProvider.GetRequiredService<AuctionDbContext>())
                 {
-                    //context.Database.EnsureCreated();
+                    context.Database.EnsureCreated();
 
                     if (!context.Roles.Any())
                     {

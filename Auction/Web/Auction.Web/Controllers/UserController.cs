@@ -14,6 +14,8 @@ namespace Auction.Web.Controllers
 {
     public class UserController : BaseController
     {
+        private const string ProfileDetailsAction = "ProfileDetails";
+
         private readonly IUserService userService;
 
         public UserController(IUserService userService)
@@ -72,6 +74,18 @@ namespace Auction.Web.Controllers
             };
 
             return this.View(BasicConstants.ProfileRoute, viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string name)
+        {
+            var id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            AuctionUser user = await this.userService.GetById(id);
+
+            await this.userService.Delete(user.Id, name);
+
+            return this.RedirectToAction(ProfileDetailsAction);
         }
     }
 }

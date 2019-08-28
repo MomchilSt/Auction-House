@@ -1,0 +1,49 @@
+﻿@using Auction.Web.ViewModels.AuctionHouse
+@model Auction.Web.InputModels.AuctionHouse.AuctionHouseReviewInputModel
+
+@{
+    ViewData["Title"] = "Review";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="text-center p-3 mx-auto mt-3">
+    <h3 class="text-center p-3 mx-auto">Write your review</h3>
+    <form method="post" action="/AuctionHouse/Review" class="p-5 w-30 mx-auto mt-3" id="itemCreateForm">
+        <div asp-validation="ModelOnly"></div>
+        <div class="d-flex justify-content-center">
+            <label asp-for="Author" class="h4">Author</label>
+        </div>
+        <input type="text" class="form-control text-center" id="Author" placeholder="Author..."
+               asp-for="Author">
+        <span asp-validation-for="Author" class="text-danger"></span>
+        <div class="d-flex justify-content-center">
+            <label asp-for="Description" class="h4 mt-3">Description</label>
+        </div>
+        <textarea type="text" class="form-control text-center"
+                  id="Description" rows="4" placeholder="Description..."
+                  asp-for="Description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+        <div class="d-flex justify-content-center">
+            <label asp-for="AuctionHouseName" class="h4 mt-3">Auction house name</label>
+        </div>
+        <select class="form-control text-center" id="auctionHouseName" asp-for="AuctionHouseName">
+            <option selected disabled>--- Select City ---</option>
+            @foreach (var auction in (IEnumerable<AuctionHouseNameViewModel>)this.ViewData["auctionHouses"])
+            {
+                <option value="@auction.Name">@auction.Name</option>
+            }
+        </select>
+        <span asp-validation-for="AuctionHouseName" class="text-danger"></span>
+        <hr class="hr-2 mt-4">
+        <div class="d-flex justify-content-center mt-3">
+            <button id="Btns" class="btn btn-primary">Create Review</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

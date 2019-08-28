@@ -7,6 +7,7 @@ using Auction.Services.Interfaces;
 using Auction.Web.InputModels.AuctionHouse;
 using Auction.Web.ViewModels.AuctionHouse;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Auction.Web.Controllers
 {
@@ -34,7 +35,7 @@ namespace Auction.Web.Controllers
             var reviewsModel = auctionHouseFromDb.Reviews.Select(auctionHouse => new AuctionHouseReviewViewModel
             {
                 Id = auctionHouse.Id,
-                Username = auctionHouse.Author,
+                Author = auctionHouse.Author,
                 Description = auctionHouse.Description,
             });
 
@@ -47,6 +48,52 @@ namespace Auction.Web.Controllers
             };
 
             return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> Review()
+        {
+            var allAuctionHouses = await this.auctionHouseService.GetAllAuctionHouses().ToListAsync();
+
+            this.ViewData["auctionHouses"] = allAuctionHouses.Select(cities =>
+            new AuctionHouseNameViewModel
+            {
+                Name = cities.Name
+            })
+                .ToList();
+
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Review(AuctionHouseReviewInputModel inputModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var allAuctionHouses = await this.auctionHouseService.GetAllAuctionHouses().ToListAsync();
+
+                this.ViewData["auctionHouses"] = allAuctionHouses.Select(cities =>
+                new AuctionHouseNameViewModel
+                {
+                    Name = cities.Name
+                })
+                    .ToList();
+
+                return this.View();
+            }
+
+            var auctionHouseFromDb = await this.auctionHouseService.GetByName(inputModel.AuctionHouseName);
+
+            if (auctionHouseService == null)
+            {
+                throw new ArgumentNullException(nameof(auctionHouseFromDb));
+            }
+
+            var authorId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var author = await this.userService.GetById(authorId);
+
+            await this.auctionHouseService.CreateReview(auctionHouseFromDb.Id, author.UserName, inputModel);
+
+            return this.RedirectToHome();
         }
     }
 }
