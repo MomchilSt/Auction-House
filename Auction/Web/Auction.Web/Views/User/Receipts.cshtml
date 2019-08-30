@@ -1,0 +1,61 @@
+﻿@model List<Auction.Web.ViewModels.User.ReceiptViewModel>
+
+@{
+    ViewData["Title"] = "My receipts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<hr class="hr-2 w-70">
+<h1 class="text-center mt-5">Receipts</h1>
+<hr class="hr-2 receiptSeparator w-70">
+@if (Model == null)
+{
+    <div class="text-center mt-5">You dont have any receipts yet.</div>
+}
+else
+{
+    @foreach (var receipt in Model)
+    {
+        <div class="mt-5 w-50 mx-auto d-flex justify-content-center">
+            <h3 class="text-right">@receipt.Name</h3>
+        </div>
+        <div class="mt-5 w-50 mx-auto d-flex justify-content-between">
+            <div class="d-flex mx-auto justify-content-between w-50">
+                <div class="w-25">
+                    <p class="text-left">Starting Price</p>
+                    <p class="text-left">Buy out</p>
+                </div>
+            </div>
+            <div class="w-25">
+                <h3 class="text-right">@receipt.StartingPrice.ToString("F2")</h3>
+                <h3 class="text-right">@receipt.BuyOutPrice.ToString("F2")</h3>
+            </div>
+        </div>
+        <hr class="hr-2 w-50">
+        
+        <div class="w-50 mx-auto d-flex justify-content-between">
+            <div class="w-25">
+                <h5 class="text-left">Auctioned on</h5>
+            </div>
+            <div class="price-holder w-25">
+                <h3 class="text-right">@receipt.IssuedOn.ToString("dd/MM/yyyy")</h3>
+
+            </div>
+        </div>
+        <hr class="hr-2 w-50">
+        <div class="text-center w-50 mx-auto d-flex justify-content-center">
+            <h6 class="text-muted">@receipt.Description</h6>
+        </div>
+        <hr class="hr-2 receiptSeparator w-70">
+    }
+}
+
+@*<div class="m-2 w-50 mx-auto d-flex justify-content-between">
+    <div class="w-25">
+        <h5>Name</h5>
+    </div>
+    <div class="w-25">
+        <h3 class="text-right">@receipt.Name</h3>
+    </div>
+</div>*@
