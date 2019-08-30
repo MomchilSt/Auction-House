@@ -1,6 +1,6 @@
 ﻿namespace Auction.Web.InputModels.Item
 {
-    public class ItemDeletInputModel
+    public class ItemDeleteInputModel
     {
         public string ItemId { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GlobalConstants;
+using System.ComponentModel.DataAnnotations;
 
 namespace Auction.Web.InputModels.City
 {
@@ -7,6 +8,7 @@ namespace Auction.Web.InputModels.City
         public const string CityNameError = "Name is required!";
 
         [Required(ErrorMessage = CityNameError)]
+        [MaxLength(ModelConstants.City.CityNameMaxLength)]
         public string Name { get; set; }
     }
 }
