@@ -144,7 +144,7 @@ namespace Auction.Web.Controllers
 
             if (!isBought)
             {
-                return this.Redirect(DetailsRoute + "/" + Id);
+                return this.Redirect(DetailsRoute + "/" + id);
             }
 
             return RedirectToHome();
