@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="~/lib/fontawesome-free-5.10.2-web/css/all.css" rel="stylesheet">
-    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">*@
 </head>
 <body>
     @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
@@ -43,6 +42,8 @@
                                         <a class="dropdown-item" href="/Administration/City/Create">Add City</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/Administration/AuctionHouse/Create">Add Auction House</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/Administration/Item/Management">Assign Items</a>
                                     </div>
                                 </div>
                             </li>
@@ -61,7 +62,7 @@
                                     <div class="dropdown-menu" aria-labelledby="profileDropDown">
                                         <a class="dropdown-item" href="/User/ProfileDetails">Details</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/User/Receipt">Receipts</a>
+                                        <a class="dropdown-item" href="/User/Receipts">Receipts</a>
                                     </div>
                                 </div>
                             </li>
@@ -106,7 +107,7 @@
                                     <div class="dropdown-menu" aria-labelledby="profileDropDown">
                                         <a class="dropdown-item" href="/User/ProfileDetails">Details</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/User/Receipt">Receipts</a>
+                                        <a class="dropdown-item" href="/User/Receipts">Receipts</a>
                                     </div>
                                 </div>
                             </li>
@@ -160,21 +161,6 @@
                         </th>
                         <th>
                             <div id="clockbox"></div>
-                            <script id="clockbox" type="text/javascript">
-                                function GetClock() {
-                                    var d = new Date();
-                                    var nmonth = d.getMonth(), ndate = d.getDate(), nyear = d.getFullYear();
-                                    var nhour = d.getHours(), nmin = d.getMinutes(), nsec = d.getSeconds();
-                                    if (nmin <= 9) nmin = "0" + nmin;
-                                    if (nsec <= 9) nsec = "0" + nsec;
-
-                                    var clocktext = "" + ndate + "/" + (nmonth + 1) + "/" + nyear + " " + nhour + ":" + nmin + ":" + nsec + "";
-                                    document.getElementById('clockbox').innerHTML = clocktext;
-                                }
-
-                                GetClock();
-                                setInterval(GetClock, 1000);
-                            </script>
                         </th>
                     }
                 </tr>
@@ -187,20 +173,20 @@
     <footer class="border-top footer text-muted">
         <div id="footerContent">
             <a class="mr-3" href="/Home/Index">Home</a>
-                <a href="/Home/Contact">Contacts</a>
+            <a href="/Home/Contact">Contacts</a>
         </div>
 
         <div id="secondaryFooter" class="container">
             &copy; 2019 - Go Auction. Всички права запазени.
         </div>
     </footer>
- 
+
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    @RenderSection("Scripts", required: false)  
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
 
@@ -218,4 +204,20 @@
             }
         }
     });
+</script>
+
+<script id="clockbox" type="text/javascript">
+    function GetClock() {
+        var d = new Date();
+        var nmonth = d.getMonth(), ndate = d.getDate(), nyear = d.getFullYear();
+        var nhour = d.getHours(), nmin = d.getMinutes(), nsec = d.getSeconds();
+        if (nmin <= 9) nmin = "0" + nmin;
+        if (nsec <= 9) nsec = "0" + nsec;
+
+        var clocktext = "" + ndate + "/" + (nmonth + 1) + "/" + nyear + " " + nhour + ":" + nmin + ":" + nsec + "";
+        document.getElementById('clockbox').innerHTML = clocktext;
+    }
+
+    GetClock();
+    setInterval(GetClock, 1000);
 </script>

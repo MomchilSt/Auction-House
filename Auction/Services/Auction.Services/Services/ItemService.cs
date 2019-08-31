@@ -12,8 +12,6 @@ namespace Auction.Services.Services
 {
     public class ItemService : IItemService
     {
-        private const string itemNullException = "Error in creating item!";
-
         private readonly AuctionDbContext context;
         private readonly ICloudinaryService cloudinaryService;
         private readonly IUserService userService;
@@ -33,7 +31,7 @@ namespace Auction.Services.Services
         public async Task<bool> Create(ItemCreateInputModel inputModel, string ownerId)
         {
             var startTime = DateTime.UtcNow;
-            var endTime = startTime.AddHours(inputModel.AuctionDuration);
+            var endTime = startTime.AddMinutes(inputModel.AuctionDuration);
 
             string pictureUrl = await this.cloudinaryService
                 .UploadPictureAsync(
@@ -48,7 +46,7 @@ namespace Auction.Services.Services
 
             if (!Enum.TryParse(inputModel.Category, out category) || auctionHouseFromDb == null)
             {
-                throw new ArgumentNullException(itemNullException);
+                throw new ArgumentNullException(nameof(auctionHouseFromDb));
             }
 
             var owner = await this.userService.GetById(ownerId);
@@ -85,9 +83,31 @@ namespace Auction.Services.Services
 
         public async Task<Item> GetById(string id)
         {
-            return await this.context.
+            var itemFromDb = await this.context.
                 Items
+                .Include(x => x.Bids)
                 .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (itemFromDb == null)
+            {
+                throw new ArgumentNullException(nameof(itemFromDb));
+            }
+
+            return itemFromDb;
+        }
+
+        public async Task<Item> GetByName(string name)
+        {
+            var itemFromDb = await this.context
+                .Items
+                .SingleOrDefaultAsync(x => x.Name == name);
+
+            if (itemFromDb == null)
+            {
+                throw new ArgumentNullException(nameof(itemFromDb));
+            }
+
+            return itemFromDb;
         }
 
         public async Task<bool> Delete(string id)
@@ -96,7 +116,6 @@ namespace Auction.Services.Services
                 .Items
                 .SingleOrDefault(x => x.Id == id);
 
-            //TODO
             if (itemFromDb == null)
             {
                 throw new ArgumentNullException(nameof(itemFromDb));
@@ -118,16 +137,28 @@ namespace Auction.Services.Services
                 .Items
                 .SingleOrDefaultAsync(x => x.Id == id);
 
+            if (itemFromDb == null)
+            {
+                throw new ArgumentNullException(nameof(itemFromDb));
+            }
+
+            if (itemFromDb.EndTime < DateTime.UtcNow)
+            {
+                return false;
+            }
+
             var user = await this.userService.GetById(ownerId);
-            itemFromDb.EndTime = DateTime.UtcNow;
+
+            if (itemFromDb.EndTime > DateTime.UtcNow)
+            {
+                itemFromDb.EndTime = DateTime.UtcNow;
+            }
+
             itemFromDb.Status = ItemStatus.Bought;
 
-            await this.receiptService.CreateReceipt(itemFromDb.Id, ownerId);
+            bool isReceiptCreated = await this.receiptService.CreateReceipt(itemFromDb.Id, ownerId);
 
-            int result = await this.context
-                .SaveChangesAsync();
-
-            return result > 0;
+            return isReceiptCreated;
         }
     }
 }

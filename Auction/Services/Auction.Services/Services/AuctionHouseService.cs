@@ -21,7 +21,8 @@ namespace Auction.Services.Services
         public async Task<bool> Create(AuctionHouseCreateInputModel inputModel)
         {
             City cityFromDb =
-                context.Cities
+                context
+                .Cities
                 .FirstOrDefault(city => city.Name == inputModel.City);
 
             if (cityFromDb == null)
@@ -39,13 +40,19 @@ namespace Auction.Services.Services
             auctionHouse.City = cityFromDb;
 
             context.AuctionHouses.Add(auctionHouse);
-            int result = await context.SaveChangesAsync();
+            int result = await context
+                .SaveChangesAsync();
 
             return result > 0;
         }
 
-        public async Task<bool> CreateReview(string id, string author, AuctionHouseReviewInputModel inputModel)
+        public async Task<bool> CreateReview(string id, AuctionHouseReviewInputModel inputModel)
         {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
             var review = new Review
             {
                 Author = inputModel.Author,
@@ -54,7 +61,8 @@ namespace Auction.Services.Services
             };
 
             context.Reviews.Add(review);
-            int result = await context.SaveChangesAsync();
+            int result = await context
+                .SaveChangesAsync();
 
             return result > 0;
         }

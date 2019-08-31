@@ -1,0 +1,49 @@
+﻿@model List<Auction.Web.ViewModels.Item.Admin.ItemManagementViewModel>
+
+@{
+    ViewData["Title"] = "Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="items" class="col-md justify-content-between rounded mt-5">
+    <h3 class="text-center">Items to assign</h3>
+    <hr class="hr-2 items-separator w-70" />
+    @if (Model.Count != 0)
+    {
+        @for (int i = 0; i < Model.Count(); i += 4)
+        {
+            <div class="row d-flex justify-content-around my-5">
+                @for (int j = i; j < i + 4; j++)
+                {
+                    @if (j < Model.Count())
+                    {
+                <div class="item col-md-3">
+                    <h6 class="text-center mt-3">@Model[j].Name</h6>
+                    <div class="image-holder d-flex justify-content-center">
+                        <img src="@Model[j].Picture" class="img-thumbnail item-image rounded" alt="..." />
+                    </div>
+                    <h6 class="text-center mt-3 text-muted">Highest bid: $@Model[j].HighestBid</h6>
+                    <form class="text-center mt-2" action="/Administration/Item/Assign" method="post">
+                        <input type="hidden" value="@Model[j].Id" name="id" />
+                        <input type="hidden" value="@Model[j].BidderId" name="bidderId" />
+                        <button class="btn btn-primary w-45" id="Btns">
+                            Assign
+                        </button>
+                    </form>
+                </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3 empty"></div>
+                    }
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <div class="my-5 justify-content-center">
+            <h4 class="text-center">Sorry, no results found</h4>
+        </div>
+    }
+</div>

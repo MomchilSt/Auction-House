@@ -1,6 +1,14 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+.items-separator {
+    border: 1px solid #000;
+}
+
+.receiptSeparator {
+    border: 1px solid #000;
+}
+
 .text-red {
     color: red;
 }
@@ -64,6 +72,10 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .w-45{
     width: 45%;
+}
+
+.w-25 {
+    width: 25%
 }
 
 .h-45 {

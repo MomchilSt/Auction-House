@@ -13,6 +13,8 @@ namespace Auction.Services.Interfaces
 
         Task<Item> GetById(string id);
 
+        Task<Item> GetByName(string name);
+
         Task<bool> Delete(string id);
 
         Task<bool> Buy(string id, string ownerId);

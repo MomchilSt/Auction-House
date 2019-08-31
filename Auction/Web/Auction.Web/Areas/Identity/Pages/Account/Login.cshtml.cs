@@ -53,6 +53,7 @@ namespace Auction.Web.Areas.Identity.Pages.Account
 
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
+
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
@@ -85,7 +86,7 @@ namespace Auction.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError("ErrorLogin", "Invalid login attempt.");
                     return Page();
                 }
             }

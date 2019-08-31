@@ -5,10 +5,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Auction.Data.Models;
 using Auction.Services.Interfaces;
+using Auction.Web.InputModels.Item;
 using Auction.Web.InputModels.User;
+using Auction.Web.ViewModels.Item;
 using Auction.Web.ViewModels.User;
 using GlobalConstants;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Auction.Web.Controllers
 {
@@ -17,10 +21,12 @@ namespace Auction.Web.Controllers
         private const string ProfileDetailsAction = "ProfileDetails";
 
         private readonly IUserService userService;
+        private readonly IReceiptService receiptService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IReceiptService receiptService)
         {
             this.userService = userService;
+            this.receiptService = receiptService;
         }
 
         public async Task<IActionResult> ProfileDetails()
@@ -51,7 +57,6 @@ namespace Auction.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //TODO ERROR
                 return this.View();
             }
 
@@ -74,6 +79,28 @@ namespace Auction.Web.Controllers
             };
 
             return this.View(BasicConstants.ProfileRoute, viewModel);
+        }
+
+        public async Task<IActionResult> Receipts()
+        {
+            var id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var receiptsFromDb = await this.receiptService.GetReceiptsById(id).ToListAsync();
+
+
+
+            List<ReceiptViewModel> viewModel = receiptsFromDb.Select(x => new ReceiptViewModel
+            {
+                IssuedOn = x.IssuedOn,
+                Name = x.Item.Name,
+                Description = x.Item.Description,
+                StartingPrice = x.Item.StartingPrice,
+                BuyOutPrice = x.Item.BuyOutPrice,
+                StartTime = x.Item.StartTime,
+            })
+                .ToList();
+
+            return this.View(viewModel);
         }
 
         [HttpPost]

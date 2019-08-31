@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace Auction.Data.Models
 {
@@ -9,12 +10,12 @@ namespace Auction.Data.Models
 
         public DateTime IssuedOn { get; set; }
 
+        [Required]
         public string ItemId { get; set; }
 
         public Item Item { get; set; }
 
+        [Required]
         public string UserId { get; set; }
-
-        public AuctionUser User { get; set; }
     }
 }

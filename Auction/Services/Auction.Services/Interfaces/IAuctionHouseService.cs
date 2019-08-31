@@ -13,7 +13,7 @@ namespace Auction.Services.Interfaces
 
         Task<AuctionHouse> GetById(string id);
 
-        Task<bool> CreateReview(string id, string author, AuctionHouseReviewInputModel inputModel);
+        Task<bool> CreateReview(string id, AuctionHouseReviewInputModel inputModel);
 
         Task<AuctionHouse> GetByName(string name);
     }

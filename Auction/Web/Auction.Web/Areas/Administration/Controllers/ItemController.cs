@@ -1,8 +1,12 @@
-﻿using Auction.Services.Interfaces;
+﻿using Auction.Data.Models.Enums;
+using Auction.Services.Interfaces;
 using Auction.Web.InputModels.Item;
+using Auction.Web.ViewModels.Item.Admin;
 using Auction.Web.ViewModels.Item.Delete;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +15,8 @@ namespace Auction.Web.Areas.Administration.Controllers
     public class ItemController : AdminController
     {
         public const string DeletePostRoute = "/Administration/Item/Delete/{id}";
+        public const string ManagementRoute = "Management";
+        private const string ErrorRoute = "/Error/Error";
 
         private readonly IItemService itemService;
         private readonly IAuctionHouseService auctionHouseService;
@@ -19,6 +25,42 @@ namespace Auction.Web.Areas.Administration.Controllers
         {
             this.itemService = itemService;
             this.auctionHouseService = auctionHouseService;
+        }
+
+        public async Task<IActionResult> Management()
+        {
+            List<ItemManagementViewModel> items = await this.itemService.GetAllItems()
+                .Where(x => x.Status == ItemStatus.BidedOn)
+                .Where(x => x.EndTime < DateTime.UtcNow)
+                .Select(x => new ItemManagementViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Picture = x.Picture,
+                    HighestBid = x.Bids
+                    .Max(m => m.Amount)
+                    .ToString("F2"),
+                    BidderId = x.Bids
+                    .OrderByDescending(o => o.Amount)
+                    .First()
+                    .UserId                    
+                })
+                .ToListAsync();
+
+            return this.View(items);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Assign(string id, string bidderId)
+        {
+            bool isReceiptCreated = await this.itemService.Buy(id, bidderId);
+
+            if (!isReceiptCreated)
+            {
+                return this.Redirect(ErrorRoute);
+            }
+
+            return this.RedirectToAction(ManagementRoute);
         }
 
 

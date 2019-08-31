@@ -9,6 +9,8 @@ namespace Auction.Web.Areas.Administration.Controllers
 {
     public class CityController : AdminController
     {
+        private const string AuctionHouseCreateRoute = "/Administration/AuctionHouse/Create";
+
         private readonly ICityService cityService;
 
         public CityController(ICityService cityService)
@@ -27,7 +29,7 @@ namespace Auction.Web.Areas.Administration.Controllers
             await this.cityService.CreateCity(cityCreateInputModel);
 
 
-            return this.Redirect("/Administration/AuctionHouse/Create");
+            return this.Redirect(AuctionHouseCreateRoute);
         }
     }
 }

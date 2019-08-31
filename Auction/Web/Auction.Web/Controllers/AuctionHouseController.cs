@@ -13,6 +13,8 @@ namespace Auction.Web.Controllers
 {
     public class AuctionHouseController : BaseController
     {
+        private const string ErrorRoute = "/Error/Error";
+
         private readonly IAuctionHouseService auctionHouseService;
         private readonly IUserService userService;
 
@@ -28,8 +30,7 @@ namespace Auction.Web.Controllers
 
             if (auctionHouseFromDb == null)
             {
-                //TODO: CHECK 
-                throw new ArgumentNullException(nameof(auctionHouseFromDb));
+                return this.Redirect(ErrorRoute);
             }
 
             var reviewsModel = auctionHouseFromDb.Reviews.Select(auctionHouse => new AuctionHouseReviewViewModel
@@ -85,13 +86,13 @@ namespace Auction.Web.Controllers
 
             if (auctionHouseService == null)
             {
-                throw new ArgumentNullException(nameof(auctionHouseFromDb));
+                return this.Redirect(ErrorRoute);
             }
 
             var authorId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var author = await this.userService.GetById(authorId);
 
-            await this.auctionHouseService.CreateReview(auctionHouseFromDb.Id, author.UserName, inputModel);
+            await this.auctionHouseService.CreateReview(auctionHouseFromDb.Id, inputModel);
 
             return this.RedirectToHome();
         }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GlobalConstants;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Auction.Data.Models
 {
@@ -6,13 +8,16 @@ namespace Auction.Data.Models
     {
         public string Id { get; set; }
 
+        [Required]
+        [Range(typeof(decimal), ModelConstants.Bid.MinPrice, ModelConstants.Bid.MaxPrice)]
         public decimal Amount { get; set; }
 
+        [Required]
         public string ItemId { get; set; }
         public Item Item { get; set; }
 
+        [Required]
         public string UserId { get; set; }
-        public AuctionUser User { get; set; }
 
         public DateTime CreatedOn { get; set; }
     }

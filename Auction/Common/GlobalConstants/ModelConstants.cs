@@ -13,6 +13,8 @@
             public const int DescriptionMaxLength = 500;
             public const string MinPrice = "0.01";
             public const string MaxPrice = "79228162514264337593543950335";
+            public const int MinDuration = 1;
+            public const int MaxDuration = 48;
         }
 
         public static class AuctionHouse

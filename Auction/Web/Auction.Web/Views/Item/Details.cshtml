@@ -40,7 +40,7 @@
         <h3 class="text-center">@Model.Name</h3>
         @if (Model.EndTime > DateTime.UtcNow && Model.StartTime < DateTime.UtcNow)
         {
-            <h5 class="text-center mt-3">Remaining time: @Model.RemainingTime.ToString(@"dd\.hh\:mm\:ss")</h5>
+            <h5 id="test" class="test text-center mt-3">Remaining time: @Model.RemainingTime.ToString(@"dd\.hh\:mm\:ss")</h5>
         }
         else
         {
@@ -49,10 +49,20 @@
         <hr class="hr-2  mt-4" />
         <h5 class="text-center">Starting price:</h5>
         <h4 class="text-center">$@Model.StartingPrice.ToString("F2")</h4>
+        @if (Model.HighestBid == null)
+        {
+            <h6 class="text-center text-muted mt-4">Bids count: 0</h6>
+        }
+        else
+        {
+            <h6 class="text-center text-muted mt-4">$@Model.HighestBid</h6>
+        }
         @if (Model.EndTime > DateTime.UtcNow && Model.StartTime < DateTime.UtcNow)
         {
-            <form class="mt-5 p-3 mx-auto">
-                <input type="number" class="form-control text-center" id="bid" placeholder="Place your bid...">
+            <form method="post" asp-action="CreateBid" class="mt-3 p-3 mx-auto">
+                <input type="number" class="form-control text-center"
+                       id="amount" name="amount" placeholder="Place your bid...">
+                <input type="hidden" value="@Model.Id" id="userId" asp-for="Id" />
                 <div class="d-flex justify-content-center mt-3">
                     <button id="Btns" class="w-30 mt-2 btn btn-primary">Bid</button>
                 </div>
@@ -81,3 +91,9 @@
 <p class="text-center mt-3">
     @Model.Description
 </p>
+
+<script>
+    setInterval(function () {
+    $("#test").load(" #test")
+}, 1000);
+</script>

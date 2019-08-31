@@ -30,6 +30,7 @@ namespace Auction.Web.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 List<ItemHomeViewModel> items = await this.itemService.GetAllItems()
+                    .Where(x => x.Status != ItemStatus.Bought)
                     .Select(x => new ItemHomeViewModel
                     {
                         Id = x.Id,
@@ -54,6 +55,7 @@ namespace Auction.Web.Controllers
             {
 
                 List<ItemHomeViewModel> items = await this.itemService.GetAllItems()
+                    .Where(x => x.Status != ItemStatus.Bought)
                     .Where(item => item.Category == Category.Electronics)
                     .Select(x => new ItemHomeViewModel
                     {
@@ -78,6 +80,7 @@ namespace Auction.Web.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 List<ItemHomeViewModel> items = await this.itemService.GetAllItems()
+                    .Where(x => x.Status != ItemStatus.Bought)
                     .Where(item => item.Category == Category.Jewellery)
                     .Select(x => new ItemHomeViewModel
                     {
@@ -102,6 +105,7 @@ namespace Auction.Web.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 List<ItemHomeViewModel> items = await this.itemService.GetAllItems()
+                    .Where(x => x.Status != ItemStatus.Bought)
                     .Where(item => item.Category == Category.Sport)
                     .Select(x => new ItemHomeViewModel
                     {
@@ -126,6 +130,7 @@ namespace Auction.Web.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 List<ItemHomeViewModel> items = await this.itemService.GetAllItems()
+                    .Where(x => x.Status != ItemStatus.Bought)
                     .Where(item => item.Category == Category.Art)
                     .Select(x => new ItemHomeViewModel
                     {
@@ -150,6 +155,7 @@ namespace Auction.Web.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 List<ItemHomeViewModel> items = await this.itemService.GetAllItems()
+                    .Where(x => x.Status != ItemStatus.Bought)
                     .Where(item => item.Category == Category.Other)
                     .Select(x => new ItemHomeViewModel
                     {

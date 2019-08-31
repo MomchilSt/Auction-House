@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using GlobalConstants;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Auction.Data.Models
 {
@@ -12,9 +14,12 @@ namespace Auction.Data.Models
             this.Receipts = new HashSet<Receipt>();
         }
 
+
+        [MaxLength(ModelConstants.User.FullNameMaxLength)]
         public string FullName { get; set; }
 
         public ICollection<Item> ItemsAuctioned { get; set; }
+
 
         public ICollection<Receipt> Receipts { get; set; }
 

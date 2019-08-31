@@ -24,5 +24,7 @@ namespace Auction.Web.ViewModels.Item
         public ItemDetailsAuctionHouseViewModel AuctionHouse { get; set; }
 
         public string Picture { get; set; }
+
+        public string HighestBid { get; set; }
     }
 }   

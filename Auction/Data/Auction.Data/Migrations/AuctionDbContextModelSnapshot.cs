@@ -24,13 +24,20 @@ namespace Auction.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<string>("CityId");
+                    b.Property<string>("CityId")
+                        .IsRequired();
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
                     b.HasKey("Id");
 
@@ -54,7 +61,8 @@ namespace Auction.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FullName");
+                    b.Property<string>("FullName")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -99,15 +107,19 @@ namespace Auction.Data.Migrations
 
                     b.Property<decimal>("Amount");
 
-                    b.Property<string>("BuyerId");
+                    b.Property<string>("AuctionUserId");
 
-                    b.Property<string>("ItemId");
+                    b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("MadeOn");
+                    b.Property<string>("ItemId")
+                        .IsRequired();
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BuyerId");
+                    b.HasIndex("AuctionUserId");
 
                     b.HasIndex("ItemId");
 
@@ -119,7 +131,9 @@ namespace Auction.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
                     b.HasKey("Id");
 
@@ -131,25 +145,33 @@ namespace Auction.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuctionHouseId");
+                    b.Property<string>("AuctionHouseId")
+                        .IsRequired();
 
-                    b.Property<string>("AuctionUserId");
+                    b.Property<string>("AuctionUserId")
+                        .IsRequired();
 
                     b.Property<decimal>("BuyOutPrice");
 
                     b.Property<int>("Category");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500);
 
                     b.Property<DateTime>("EndTime");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(120);
 
                     b.Property<string>("Picture");
 
                     b.Property<DateTime>("StartTime");
 
                     b.Property<decimal>("StartingPrice");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -160,18 +182,45 @@ namespace Auction.Data.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("Auction.Data.Models.Receipt", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuctionUserId");
+
+                    b.Property<DateTime>("IssuedOn");
+
+                    b.Property<string>("ItemId")
+                        .IsRequired();
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuctionUserId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Receipts");
+                });
+
             modelBuilder.Entity("Auction.Data.Models.Review", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuctionHouseId");
+                    b.Property<string>("AuctionHouseId")
+                        .IsRequired();
 
-                    b.Property<string>("Author");
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Description");
-
-                    b.Property<decimal>("Rating");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500);
 
                     b.HasKey("Id");
 
@@ -294,36 +343,53 @@ namespace Auction.Data.Migrations
                 {
                     b.HasOne("Auction.Data.Models.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Auction.Data.Models.Bid", b =>
                 {
-                    b.HasOne("Auction.Data.Models.AuctionUser", "Buyer")
+                    b.HasOne("Auction.Data.Models.AuctionUser")
                         .WithMany("Bids")
-                        .HasForeignKey("BuyerId");
+                        .HasForeignKey("AuctionUserId");
 
                     b.HasOne("Auction.Data.Models.Item", "Item")
                         .WithMany("Bids")
-                        .HasForeignKey("ItemId");
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Auction.Data.Models.Item", b =>
                 {
                     b.HasOne("Auction.Data.Models.AuctionHouse", "AuctionHouse")
-                        .WithMany("ItemsBeingAcutioned")
-                        .HasForeignKey("AuctionHouseId");
+                        .WithMany("Items")
+                        .HasForeignKey("AuctionHouseId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Auction.Data.Models.AuctionUser", "AuctionUser")
+                        .WithMany("ItemsAuctioned")
+                        .HasForeignKey("AuctionUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Auction.Data.Models.Receipt", b =>
+                {
                     b.HasOne("Auction.Data.Models.AuctionUser")
-                        .WithMany("Inventory")
+                        .WithMany("Receipts")
                         .HasForeignKey("AuctionUserId");
+
+                    b.HasOne("Auction.Data.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Auction.Data.Models.Review", b =>
                 {
-                    b.HasOne("Auction.Data.Models.AuctionHouse")
+                    b.HasOne("Auction.Data.Models.AuctionHouse", "AuctionHouse")
                         .WithMany("Reviews")
-                        .HasForeignKey("AuctionHouseId");
+                        .HasForeignKey("AuctionHouseId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

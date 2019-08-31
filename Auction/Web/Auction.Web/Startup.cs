@@ -60,6 +60,7 @@ namespace Auction.Web
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IBidService, BidService>();
             services.AddTransient<IReceiptService, ReceiptService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
 

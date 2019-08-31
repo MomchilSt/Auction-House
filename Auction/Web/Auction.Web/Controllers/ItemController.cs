@@ -16,16 +16,19 @@ namespace Auction.Web.Controllers
     public class ItemController : BaseController
     {
         private const string DetailsRoute = "Details";
+        private const string ErrorRoute = "/Error/Error";
 
         private readonly IAuctionHouseService auctionHouseService;
         private readonly IItemService itemService;
-        private readonly IUserService userService;
+        private readonly IBidService bidService;
 
-        public ItemController(IAuctionHouseService auctionHouseService, IItemService itemService, IUserService userService)
+        public ItemController(IAuctionHouseService auctionHouseService,
+            IItemService itemService,
+            IBidService bidService)
         {
             this.auctionHouseService = auctionHouseService;
             this.itemService = itemService;
-            this.userService = userService;
+            this.bidService = bidService;
         }
 
         public async Task<IActionResult> Create()
@@ -45,7 +48,7 @@ namespace Auction.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ItemCreateInputModel inputModel)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || inputModel.StartingPrice > inputModel.BuyOutPrice)
             {
                 var auctionHouses = await auctionHouseService.GetAllAuctionHouses().ToListAsync();
 
@@ -73,12 +76,34 @@ namespace Auction.Web.Controllers
 
             if (itemFromDb == null)
             {
-                //TODO CHECK msg
-                this.ShowErrorMessage(AlertMessages.ItemNotFound);
-                return this.RedirectToHome();
+                return this.Redirect(ErrorRoute);
             }
 
             var auctionHouseFromDb = await this.auctionHouseService.GetById(itemFromDb.AuctionHouseId);
+            var firstItemBidFromDb = itemFromDb.Bids.FirstOrDefault();
+
+            if (firstItemBidFromDb == null)
+            {
+                ItemDetailsViewModel itemWithNoBids = new ItemDetailsViewModel
+                {
+                    Id = itemFromDb.Id,
+                    Name = itemFromDb.Name,
+                    Description = itemFromDb.Description,
+                    StartingPrice = itemFromDb.StartingPrice,
+                    BuyOutPrice = itemFromDb.BuyOutPrice,
+                    StartTime = itemFromDb.StartTime,
+                    EndTime = itemFromDb.EndTime,
+                    Picture = itemFromDb.Picture,
+                    AuctionHouse = new ItemDetailsAuctionHouseViewModel
+                    {
+                        Id = auctionHouseFromDb.Id,
+                        Name = auctionHouseFromDb.Name,
+                        Address = auctionHouseFromDb.Address
+                    }
+                };
+
+                return this.View(itemWithNoBids);
+            }
 
             ItemDetailsViewModel item = new ItemDetailsViewModel
             {
@@ -90,6 +115,9 @@ namespace Auction.Web.Controllers
                 StartTime = itemFromDb.StartTime,
                 EndTime = itemFromDb.EndTime,
                 Picture = itemFromDb.Picture,
+                HighestBid = itemFromDb.Bids
+                .Max(x => x.Amount)
+                .ToString("F2"),
                 AuctionHouse = new ItemDetailsAuctionHouseViewModel
                 {
                     Id = auctionHouseFromDb.Id,
@@ -108,12 +136,47 @@ namespace Auction.Web.Controllers
 
             if (ownerId == null)
             {
-                //TODO CHECK
+                return this.Redirect(ErrorRoute);
             }
 
-            await this.itemService.Buy(id, ownerId);
+
+            var isBought = await this.itemService.Buy(id, ownerId);
+
+            if (!isBought)
+            {
+                return this.Redirect(DetailsRoute + "/" + Id);
+            }
 
             return RedirectToHome();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBid(string Id, string amount)
+        {
+            if (amount == null)
+            {
+                return this.Redirect(DetailsRoute + "/" + Id);
+            }
+
+            decimal amountParsed;
+
+            if (!(Decimal.TryParse(amount, out amountParsed)))
+            {
+                return this.Redirect(DetailsRoute + "/" + Id);
+            }
+
+            var item = await this.itemService.GetById(Id);
+
+            var bidderId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var isBidCreated = await this.bidService.CreateBid(item, bidderId, amountParsed);
+
+            if (!isBidCreated)
+            {
+                return this.Redirect(ErrorRoute);
+            }
+
+            return this.Redirect(DetailsRoute + "/" + Id);
         }
     }
 }   
