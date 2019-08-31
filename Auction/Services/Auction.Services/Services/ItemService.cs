@@ -31,7 +31,7 @@ namespace Auction.Services.Services
         public async Task<bool> Create(ItemCreateInputModel inputModel, string ownerId)
         {
             var startTime = DateTime.UtcNow;
-            var endTime = startTime.AddMinutes(inputModel.AuctionDuration);
+            var endTime = startTime.AddHours(inputModel.AuctionDuration);
 
             string pictureUrl = await this.cloudinaryService
                 .UploadPictureAsync(
